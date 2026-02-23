@@ -1,0 +1,3662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NERVURE — CPG Financial Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   NERVURE v2 — Premium CPG Financial Operating System
+   Design System: Refined Obsidian × Teal × Gold
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --teal: #0D9488;
+  --teal-l: #14B8A6;
+  --teal-xl: #5EEAD4;
+  --teal-dim: #CCFBF1;
+  --teal-bg: #F0FDFA;
+  --teal-glow: rgba(13,148,136,.08);
+  --teal-glow-s: rgba(13,148,136,.04);
+
+  --gold: #D4AF37;
+  --gold-light: #F4E5B0;
+  --gold-dark: #B8941F;
+  --gold-glow: rgba(212,175,55,.12);
+
+  --ink: #0A1A18;
+  --ink-mid: #1E3A36;
+  --ink-soft: #4A6B67;
+  --ink-faint: #8FADA9;
+  --ink-ghost: #C5DAD8;
+  --surface: #FFFFFF;
+  --surface-alt: #F8FFFE;
+  --surface-raised: #FFFFFF;
+  --border: rgba(13,148,136,.12);
+  --border-m: rgba(13,148,136,.22);
+  --border-s: rgba(13,148,136,.07);
+
+  --green: #10B981;
+  --green-bg: rgba(16,185,129,.08);
+  --amber: #F59E0B;
+  --amber-bg: rgba(245,158,11,.08);
+  --red: #EF4444;
+  --red-bg: rgba(239,68,68,.08);
+  --blue: #3B82F6;
+  --blue-bg: rgba(59,130,246,.08);
+  --purple: #8B5CF6;
+  --purple-bg: rgba(139,92,246,.08);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-s: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(13,148,136,.06);
+  --shadow-m: 0 2px 8px rgba(0,0,0,.06), 0 12px 32px rgba(13,148,136,.09);
+  --shadow-l: 0 4px 24px rgba(0,0,0,.08), 0 20px 60px rgba(13,148,136,.12);
+  --shadow-card: 0 0 0 1px rgba(13,148,136,.08), 0 2px 8px rgba(0,0,0,.05);
+
+  --r6: 6px;
+  --r8: 8px;
+  --r10: 10px;
+  --r12: 12px;
+  --r14: 14px;
+  --r16: 16px;
+  --r20: 20px;
+  --r24: 24px;
+
+  --sidebar-w: 268px;
+  --topbar-h: 60px;
+  --transition: 0.18s cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--surface-alt);
+  color: var(--ink);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--teal-dim); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-ghost); }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,.5); }
+  50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes progressIn {
+  from { width: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes numberCountUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.animate-in { animation: fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-in-delay-1 { animation: fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) 0.06s both; }
+.animate-in-delay-2 { animation: fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) 0.12s both; }
+.animate-in-delay-3 { animation: fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) 0.18s both; }
+.animate-in-delay-4 { animation: fadeUp 0.38s cubic-bezier(0.4,0,0.2,1) 0.24s both; }
+
+/* ── LAYOUT ─────────────────────────────────────────────────────────────── */
+#app { display: flex; height: 100vh; overflow: hidden; position: relative; }
+
+/* ── SIDEBAR ────────────────────────────────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  z-index: 30;
+  transition: width var(--transition-slow);
+}
+
+#sidebar::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(13,148,136,.14) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+#sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: 60px; left: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(212,175,55,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Sidebar Logo */
+.sb-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sb-logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--teal) 0%, #0FA89D 50%, #14B8A6 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; color: #fff;
+  letter-spacing: -0.03em;
+  box-shadow: 0 4px 14px rgba(13,148,136,.4), inset 0 1px 0 rgba(255,255,255,.2);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.sb-logo:hover .sb-logo-mark { transform: scale(1.04); }
+
+.sb-brand-name {
+  font-size: 18px; font-weight: 800;
+  background: linear-gradient(130deg, var(--teal-xl) 0%, #FFFFFF 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: 0.04em;
+}
+.sb-brand-tagline {
+  font-size: 9.5px; color: rgba(255,255,255,.28);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-top: 1px;
+}
+
+/* Sidebar nav */
+.sb-nav { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 10px 0; }
+
+.sb-section-label {
+  font-size: 9.5px; font-weight: 700;
+  color: rgba(255,255,255,.2);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 14px 18px 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  margin: 1px 10px;
+  border-radius: var(--r10);
+  cursor: pointer;
+  transition: var(--transition);
+  color: rgba(255,255,255,.36);
+  font-size: 13.5px; font-weight: 500;
+  position: relative;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.6);
+  border-color: rgba(255,255,255,.04);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(13,148,136,.18), rgba(13,148,136,.08));
+  color: var(--teal-xl);
+  font-weight: 600;
+  border-color: rgba(13,148,136,.2);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: -10px; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 20px;
+  background: var(--teal);
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-icon {
+  font-size: 16px; width: 22px; text-align: center; flex-shrink: 0;
+}
+
+.nav-label { flex: 1; }
+
+.nav-badge {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 6px; border-radius: 20px;
+  background: var(--red); color: #fff;
+  letter-spacing: 0.04em;
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+.nav-badge.amber { background: var(--amber); color: var(--ink); animation: none; }
+.nav-badge.green { background: var(--green); animation: none; }
+.nav-badge.teal { background: var(--teal); animation: none; }
+
+/* Sidebar commodity list */
+.sb-comm-section { border-top: 1px solid rgba(255,255,255,.04); margin-top: 4px; }
+.comm-mini {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 18px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.comm-mini:hover { background: rgba(255,255,255,.03); }
+.comm-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.comm-mini-name { font-size: 11.5px; color: rgba(255,255,255,.35); flex: 1; }
+.comm-mini-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; font-weight: 600;
+}
+
+/* Sidebar bottom */
+.sb-bottom {
+  padding: 14px 18px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  display: flex; align-items: center; gap: 10px;
+  position: relative; z-index: 1;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.sb-bottom:hover { background: rgba(255,255,255,.03); }
+
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--teal-l));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(13,148,136,.3);
+}
+
+.sb-user-name { font-size: 13px; color: rgba(255,255,255,.85); font-weight: 600; }
+.sb-user-role { font-size: 10.5px; color: rgba(255,255,255,.35); margin-top: 1px; }
+.sb-settings-btn {
+  margin-left: auto; font-size: 16px; color: rgba(255,255,255,.25);
+  cursor: pointer; transition: var(--transition); padding: 4px;
+  border-radius: 6px;
+}
+.sb-settings-btn:hover { color: rgba(255,255,255,.6); background: rgba(255,255,255,.05); }
+
+/* ── MAIN ───────────────────────────────────────────────────────────────── */
+#main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+/* ── TOPBAR ─────────────────────────────────────────────────────────────── */
+#topbar {
+  height: var(--topbar-h);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px; gap: 12px;
+  z-index: 20; flex-shrink: 0;
+  position: relative;
+}
+
+.topbar-breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--ink-soft);
+}
+.topbar-breadcrumb strong { color: var(--ink); font-weight: 600; }
+.topbar-breadcrumb span { color: var(--ink-ghost); }
+
+.search-trigger {
+  flex: 1; max-width: 340px;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--teal-glow-s);
+  border: 1px solid var(--border);
+  border-radius: var(--r10);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin: 0 4px;
+}
+.search-trigger:hover { border-color: var(--border-m); background: var(--teal-glow); }
+.search-icon { font-size: 14px; color: var(--teal); }
+.search-placeholder { font-size: 12.5px; color: var(--ink-faint); flex: 1; }
+.search-kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--ink-ghost);
+  background: var(--surface-alt); border: 1px solid var(--border);
+  padding: 2px 5px; border-radius: 4px;
+}
+
+.tb-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+.live-pill {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  background: rgba(16,185,129,.07);
+  border: 1px solid rgba(16,185,129,.18);
+  border-radius: var(--r8);
+  cursor: default;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.live-txt { font-size: 12px; color: var(--green); font-weight: 700; letter-spacing: 0.02em; }
+
+.topbar-chip {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r8);
+  font-size: 11.5px; color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  cursor: default;
+  transition: var(--transition);
+}
+
+.topbar-chip.teal { color: var(--teal); background: var(--teal-glow); border-color: var(--border-m); }
+
+.topbar-icon-btn {
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r8);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+  color: var(--ink-soft);
+  position: relative;
+  border: 1px solid transparent;
+}
+.topbar-icon-btn:hover { background: var(--teal-glow); border-color: var(--border); color: var(--teal); }
+
+.notif-badge {
+  position: absolute; top: 3px; right: 3px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red);
+  border: 1.5px solid var(--surface);
+}
+
+/* ── CONTENT ─────────────────────────────────────────────────────────────── */
+#content {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 24px 24px 16px;
+  scroll-behavior: smooth;
+}
+
+/* ── CARDS ──────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r16);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+  will-change: transform;
+}
+.card:hover { box-shadow: var(--shadow-m); border-color: var(--border-m); }
+.card-hover-lift:hover { transform: translateY(-2px); }
+
+.card-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border-s);
+}
+.card-title { font-size: 16px; color: var(--ink); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+.card-sub { font-size: 12px; color: var(--ink-soft); margin-top: 3px; }
+
+/* ── GRIDS ──────────────────────────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.g5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.g-main { display: grid; grid-template-columns: 1fr 330px; gap: 16px; }
+.g-main-l { display: grid; grid-template-columns: 260px 1fr; gap: 16px; }
+.g-content { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ── KPI CARDS ──────────────────────────────────────────────────────────── */
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r14);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.kpi::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--kpi-accent, var(--teal));
+  border-radius: 2px 2px 0 0;
+  opacity: 0.7;
+}
+.kpi:hover { box-shadow: var(--shadow-m); transform: translateY(-1px); }
+
+.kpi-label {
+  font-size: 10.5px; color: var(--ink-faint);
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.kpi-val {
+  font-size: 28px; color: var(--ink);
+  font-weight: 800; line-height: 1;
+  letter-spacing: -0.03em;
+}
+.kpi-delta {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 12px; font-weight: 700;
+  padding: 3px 7px; border-radius: 5px;
+  margin-top: 8px;
+}
+.kpi-delta.up { background: var(--green-bg); color: var(--green); }
+.kpi-delta.down { background: var(--red-bg); color: var(--red); }
+.kpi-delta.neutral { background: var(--teal-glow); color: var(--teal); }
+.kpi-sub { font-size: 11px; color: var(--ink-faint); margin-top: 6px; }
+
+/* ── BUTTONS ─────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: 'Century Gothic', CenturyGothic, Futura, sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 9px 18px;
+  border-radius: var(--r10);
+  border: none; cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.02em;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-l) 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(13,148,136,.3);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(13,148,136,.4); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(212,175,55,.25);
+}
+.btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,175,55,.4); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--teal);
+  border: 1px solid var(--border-m);
+}
+.btn-ghost:hover { background: var(--teal-glow); border-color: var(--teal); }
+
+.btn-dark {
+  background: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.7);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.btn-dark:hover { background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); }
+
+.btn-sm { padding: 6px 13px; font-size: 12px; border-radius: var(--r8); }
+.btn-xs { padding: 4px 10px; font-size: 11px; border-radius: 6px; }
+
+/* ── BADGES ──────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 3px 8px; border-radius: 5px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.04em; white-space: nowrap;
+}
+.badge-buy   { background: var(--green-bg); color: var(--green); border: 1px solid rgba(16,185,129,.2); }
+.badge-hold  { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
+.badge-sell  { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239,68,68,.2); }
+.badge-teal  { background: var(--teal-glow); color: var(--teal); border: 1px solid rgba(13,148,136,.2); }
+.badge-blue  { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(59,130,246,.2); }
+.badge-purple{ background: var(--purple-bg); color: var(--purple); border: 1px solid rgba(139,92,246,.2); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245,158,11,.2); }
+.badge-red   { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239,68,68,.2); }
+.badge-gold  { background: var(--gold-glow); color: var(--gold-dark); border: 1px solid rgba(212,175,55,.3); }
+.badge-dark  { background: rgba(10,26,24,.8); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.1); }
+
+/* ── HERO BANNER ─────────────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--ink) 0%, #1A3835 60%, #0D2E2B 100%);
+  border-radius: var(--r20);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative; overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+}
+
+.hero::after {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(13,148,136,.2) 0%, transparent 70%);
+  pointer-events: none; animation: glowPulse 5s ease-in-out infinite;
+}
+
+.hero::before {
+  content: '';
+  position: absolute; bottom: -30px; left: 40%;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(212,175,55,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-size: 11.5px; color: var(--teal-xl); font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;
+}
+.hero-title {
+  font-size: 32px; font-weight: 800; color: white;
+  line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.03em;
+}
+.hero-title em { color: var(--teal-xl); font-style: normal; }
+.hero-sub { font-size: 13.5px; color: rgba(255,255,255,.62); line-height: 1.65; max-width: 520px; }
+
+.hero-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+.hero-stat {
+  background: rgba(255,255,255,.07);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--r12);
+  padding: 14px 18px; min-width: 130px;
+  transition: var(--transition);
+}
+.hero-stat:hover { background: rgba(255,255,255,.1); }
+.hero-stat-val { font-size: 26px; font-weight: 800; color: white; letter-spacing: -0.02em; margin-bottom: 4px; }
+.hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 600; letter-spacing: 0.04em; }
+
+/* ── PAGE HEADERS ────────────────────────────────────────────────────────── */
+.page-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 20px;
+  animation: fadeUp 0.3s ease both;
+}
+.page-title { font-size: 26px; color: var(--ink); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.page-sub { font-size: 13px; color: var(--ink-soft); margin-top: 3px; }
+
+/* ── TABS ────────────────────────────────────────────────────────────────── */
+.tab-bar {
+  display: flex; gap: 2px; padding: 4px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--r12); margin-bottom: 18px;
+  width: fit-content;
+}
+.tab {
+  padding: 7px 16px; border-radius: var(--r8);
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  cursor: pointer; transition: var(--transition);
+}
+.tab.active {
+  background: var(--surface); color: var(--ink);
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--border);
+}
+.tab:not(.active):hover { color: var(--ink); background: rgba(0,0,0,.03); }
+
+/* ── TABLE ───────────────────────────────────────────────────────────────── */
+.tbl-wrap { overflow: hidden; border-radius: var(--r16); }
+.tbl-head {
+  display: grid; align-items: center;
+  padding: 10px 20px;
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--border);
+}
+.tbl-head span {
+  font-size: 10.5px; color: var(--ink-faint);
+  letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700;
+}
+.tbl-row {
+  display: grid; align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-s);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.tbl-row:hover { background: var(--teal-glow-s); }
+.tbl-row:last-child { border-bottom: none; }
+.tbl-row.highlighted { background: rgba(13,148,136,.04); }
+
+/* ── PROGRESS ────────────────────────────────────────────────────────────── */
+.prog-bar {
+  height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.prog-fill {
+  height: 100%; border-radius: 2px;
+  animation: progressIn 1s cubic-bezier(0.4,0,0.2,1) both;
+  transition: width var(--transition-slow);
+}
+
+.prog-row { display: flex; align-items: center; gap: 10px; }
+.prog-label { font-size: 12px; color: var(--ink-soft); min-width: 120px; font-weight: 500; }
+.prog-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 700; min-width: 34px; text-align: right;
+}
+
+/* ── SIGNAL ITEMS ─────────────────────────────────────────────────────────── */
+.signal-item {
+  padding: 13px 20px;
+  border-bottom: 1px solid var(--border-s);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.signal-item:hover { background: var(--teal-glow-s); }
+.signal-item:last-child { border-bottom: none; }
+.signal-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.signal-type {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.signal-text { font-size: 12.5px; color: var(--ink-mid); line-height: 1.55; }
+.signal-meta { font-size: 10.5px; color: var(--ink-faint); margin-top: 4px; display: flex; gap: 10px; }
+
+/* ── EXECUTION WINDOWS ────────────────────────────────────────────────────── */
+.window-card {
+  padding: 14px 18px; border-radius: var(--r12); margin-bottom: 10px;
+  border: 1px solid var(--border); transition: var(--transition);
+}
+.window-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-s); }
+.window-open { background: rgba(16,185,129,.04); border-color: rgba(16,185,129,.22); }
+.window-closed { background: rgba(239,68,68,.03); border-color: rgba(239,68,68,.14); }
+
+/* ── DIFF BANNERS ─────────────────────────────────────────────────────────── */
+.diff-banner {
+  background: linear-gradient(90deg, var(--teal-glow), var(--teal-glow-s));
+  border: 1px solid var(--border-m);
+  border-radius: var(--r10); padding: 12px 16px;
+  display: flex; align-items: flex-start; gap: 10px; margin-top: 14px;
+}
+.diff-icon { font-size: 16px; flex-shrink: 0; }
+.diff-title { font-size: 12.5px; font-weight: 700; color: var(--teal); margin-bottom: 3px; }
+.diff-text { font-size: 11.5px; color: var(--ink-soft); line-height: 1.55; }
+
+/* ── SPARKLINES ──────────────────────────────────────────────────────────── */
+.sparkline-canvas { display: block; }
+
+/* ── SCORE CARDS ─────────────────────────────────────────────────────────── */
+.score-grade {
+  display: inline-block; padding: 3px 8px; border-radius: 5px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+}
+.grade-a { background: var(--green-bg); color: var(--green); }
+.grade-b { background: var(--blue-bg); color: var(--blue); }
+.grade-c { background: var(--amber-bg); color: var(--amber); }
+
+/* ── ORACLE STYLES ────────────────────────────────────────────────────────── */
+.oracle-loading { text-align: center; padding: 48px 24px; }
+.oracle-step {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0; font-size: 12.5px; opacity: 0.25;
+  transition: opacity 0.3s ease;
+}
+.oracle-step.active { opacity: 1; }
+.oracle-step.done { opacity: 0.7; }
+.step-icon { width: 20px; text-align: center; font-size: 14px; font-weight: 700; }
+.step-bar { flex: 1; height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; }
+.step-fill { height: 100%; background: var(--teal); width: 0; transition: width 0.7s ease; }
+
+/* ── GENOME STYLES ────────────────────────────────────────────────────────── */
+.gene-product {
+  padding: 14px 16px; border: 1px solid var(--border);
+  border-radius: var(--r12); margin-bottom: 10px;
+  cursor: pointer; transition: var(--transition);
+}
+.gene-product:hover { background: var(--teal-glow-s); border-color: var(--border-m); }
+.gene-product.open { background: var(--surface-alt); }
+.gene-ingredients { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+.gene-ingredients.open { max-height: 600px; margin-top: 12px; }
+.gene-ing {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: var(--r10);
+  background: var(--surface); border: 1px solid var(--border-s);
+  margin-bottom: 6px;
+}
+
+/* ── BENCHMARK ROWS ───────────────────────────────────────────────────────── */
+.bench-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.bench-label { font-size: 12px; color: var(--ink-soft); font-weight: 600; min-width: 130px; }
+.bench-bar-wrap { position: relative; height: 24px; background: var(--surface-alt); border-radius: 5px; overflow: hidden; }
+.bench-bar-peer { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink-ghost); border-radius: 5px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.bench-bar-you { position: absolute; top: 0; left: 0; height: 100%; background: var(--teal); border-radius: 5px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.bench-marker { position: absolute; top: 0; height: 100%; width: 2px; background: var(--ink); opacity: 0.4; transform: translateX(-1px); }
+.bench-you-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--teal); min-width: 44px; text-align: right; }
+.bench-peer-val { font-size: 10.5px; color: var(--ink-faint); min-width: 70px; text-align: right; }
+
+/* ── DECISION ROWS ────────────────────────────────────────────────────────── */
+.decision-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: var(--r12); margin-bottom: 10px;
+  transition: var(--transition);
+}
+.decision-row:hover { border-color: var(--border-m); }
+.decision-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.decision-win { background: var(--green-bg); color: var(--green); }
+.decision-loss { background: var(--red-bg); color: var(--red); }
+.regret-amount { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+
+/* ── CARBON CHIPS ─────────────────────────────────────────────────────────── */
+.carbon-chip {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: var(--r10); margin-bottom: 8px;
+  transition: var(--transition);
+}
+.carbon-chip:hover { border-color: var(--border-m); }
+.carbon-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+.carbon-impact { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: 3px; }
+
+/* ── SCENARIO OPTION ────────────────────────────────────────────────────── */
+.scenario-opt {
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: var(--r10); margin-bottom: 8px;
+  cursor: pointer; transition: var(--transition);
+}
+.scenario-opt:hover { border-color: var(--border-m); background: var(--teal-glow-s); }
+.scenario-opt.selected { background: var(--teal-glow); border-color: var(--teal); }
+
+/* ── NOTIFICATION PANEL ───────────────────────────────────────────────────── */
+#notif-panel {
+  position: fixed; top: 68px; right: 20px;
+  width: 360px; max-height: 480px;
+  background: var(--surface);
+  border: 1px solid var(--border-m);
+  border-radius: var(--r16);
+  box-shadow: var(--shadow-l);
+  z-index: 100;
+  display: none;
+  overflow: hidden;
+  animation: slideInRight 0.2s ease both;
+}
+#notif-panel.open { display: flex; flex-direction: column; }
+
+/* ── COMMAND PALETTE ──────────────────────────────────────────────────────── */
+#cmd-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,26,24,.5);
+  backdrop-filter: blur(4px);
+  z-index: 200; display: none;
+  align-items: flex-start; justify-content: center;
+  padding-top: 120px;
+}
+#cmd-overlay.open { display: flex; animation: fadeIn 0.15s ease both; }
+
+#cmd-palette {
+  width: 580px; background: var(--surface);
+  border: 1px solid var(--border-m);
+  border-radius: var(--r20);
+  box-shadow: var(--shadow-l);
+  overflow: hidden;
+  animation: scaleIn 0.18s cubic-bezier(0.4,0,0.2,1) both;
+}
+
+#cmd-input {
+  width: 100%; padding: 18px 20px;
+  font-size: 16px; font-family: 'Century Gothic', CenturyGothic, Futura, sans-serif; font-weight: 500;
+  border: none; outline: none; color: var(--ink);
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+}
+
+.cmd-result {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 20px; cursor: pointer;
+  transition: var(--transition);
+}
+.cmd-result:hover, .cmd-result.selected { background: var(--teal-glow); }
+.cmd-result-icon { font-size: 18px; width: 28px; text-align: center; }
+.cmd-result-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+.cmd-result-desc { font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+.cmd-result-kbd { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-ghost); }
+
+/* ── TRIGGER OPEN / CLOSED ────────────────────────────────────────────────── */
+.trigger-open, .trigger-closed { /* replaced by window-card classes */ }
+
+/* ── METRIC SPARKLINE ROWS ───────────────────────────────────────────────── */
+.metric-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 0; border-bottom: 1px solid var(--border-s);
+}
+.metric-row:last-child { border-bottom: none; }
+.metric-name { flex: 1; font-size: 13px; color: var(--ink); font-weight: 600; }
+.metric-sub { font-size: 11px; color: var(--ink-faint); font-weight: 400; margin-top: 1px; }
+.metric-val { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; }
+.metric-delta { font-size: 11px; font-weight: 700; }
+.up-text { color: var(--green); }
+.down-text { color: var(--red); }
+.neutral-text { color: var(--teal); }
+
+/* ── FORMS ───────────────────────────────────────────────────────────────── */
+input[type="text"], input[type="email"], textarea, select {
+  font-family: 'Century Gothic', CenturyGothic, Futura, sans-serif;
+  font-size: 13.5px; color: var(--ink);
+  background: var(--surface-alt);
+  border: 1px solid var(--border-m);
+  border-radius: var(--r10); padding: 10px 14px;
+  outline: none; transition: var(--transition);
+  width: 100%;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+}
+
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px;
+  background: var(--teal-dim); border-radius: 2px;
+  outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--teal); cursor: pointer;
+  box-shadow: 0 2px 8px rgba(13,148,136,.4);
+  border: 2px solid white;
+  transition: var(--transition);
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+/* ── TOGGLE ──────────────────────────────────────────────────────────────── */
+.toggle-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.toggle {
+  width: 38px; height: 22px; border-radius: 11px;
+  background: var(--border-m); position: relative;
+  transition: var(--transition); flex-shrink: 0;
+}
+.toggle.on { background: var(--teal); }
+.toggle::after {
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: white; transition: var(--transition);
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+.toggle.on::after { transform: translateX(16px); }
+
+/* ── LOADING SKELETON ─────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-alt) 25%, var(--border-s) 50%, var(--surface-alt) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* ── SUPPLY CHAIN NODES ───────────────────────────────────────────────────── */
+.supply-node {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 12px 16px;
+  transition: var(--transition);
+}
+.supply-node:hover { border-color: var(--teal); box-shadow: var(--shadow-s); }
+
+/* ── REPORT CARDS ─────────────────────────────────────────────────────────── */
+.report-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r14); padding: 18px 20px;
+  transition: var(--transition); cursor: pointer;
+}
+.report-card:hover { border-color: var(--border-m); box-shadow: var(--shadow-m); transform: translateY(-2px); }
+.report-icon { font-size: 28px; margin-bottom: 10px; }
+
+/* ── INTEGRATION ITEM ─────────────────────────────────────────────────────── */
+.integration-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border: 1px solid var(--border);
+  border-radius: var(--r12); transition: var(--transition);
+}
+.integration-item:hover { border-color: var(--border-m); background: var(--teal-glow-s); }
+.integration-icon {
+  width: 42px; height: 42px; border-radius: var(--r10);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+
+/* ── RESPONSIVE TWEAKS ────────────────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .g4 { grid-template-columns: repeat(2, 1fr); }
+  .g-main { grid-template-columns: 1fr 290px; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <nav id="sidebar">
+    <div class="sb-logo" onclick="showModule('dashboard')">
+      <div class="sb-logo-mark">N</div>
+      <div>
+        <div class="sb-brand-name">NERVURE</div>
+        <div class="sb-brand-tagline">CPG Financial OS</div>
+      </div>
+    </div>
+
+    <div class="sb-nav">
+      <!-- CORE MODULES -->
+      <div class="sb-section-label">Command</div>
+
+      <div class="nav-item active" id="nav-dashboard" onclick="showModule('dashboard',this)">
+        <span class="nav-icon">◎</span>
+        <span class="nav-label">Dashboard</span>
+      </div>
+      <div class="nav-item" id="nav-oracle" onclick="showModule('oracle',this)">
+        <span class="nav-icon">⚡</span>
+        <span class="nav-label">AI Oracle</span>
+        <span class="nav-badge">3</span>
+      </div>
+
+      <div class="sb-section-label">Commodity Intelligence</div>
+
+      <div class="nav-item" id="nav-commodity" onclick="showModule('commodity',this)">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Commodity Desk</span>
+        <span class="nav-badge amber">!</span>
+      </div>
+      <div class="nav-item" id="nav-profiles" onclick="showModule('profiles',this)">
+        <span class="nav-icon">◎</span>
+        <span class="nav-label">Scoring Profiles</span>
+      </div>
+      <div class="nav-item" id="nav-genome" onclick="showModule('genome',this)">
+        <span class="nav-icon">🧬</span>
+        <span class="nav-label">Product Genome</span>
+      </div>
+      <div class="nav-item" id="nav-scenarios" onclick="showModule('scenarios',this)">
+        <span class="nav-icon">◈</span>
+        <span class="nav-label">Scenario Engine</span>
+      </div>
+      <div class="nav-item" id="nav-signals" onclick="showModule('signals',this)">
+        <span class="nav-icon">🛰</span>
+        <span class="nav-label">Signal Lab</span>
+        <span class="nav-badge green">50</span>
+      </div>
+
+      <div class="sb-section-label">Financial Planning</div>
+
+      <div class="nav-item" id="nav-revenue" onclick="showModule('revenue',this)">
+        <span class="nav-icon">💰</span>
+        <span class="nav-label">Revenue Engine</span>
+      </div>
+      <div class="nav-item" id="nav-demand" onclick="showModule('demand',this)">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Demand Forecast</span>
+      </div>
+      <div class="nav-item" id="nav-profitability" onclick="showModule('profitability',this)">
+        <span class="nav-icon">💡</span>
+        <span class="nav-label">Profitability</span>
+      </div>
+
+      <div class="sb-section-label">Operations</div>
+
+      <div class="nav-item" id="nav-supply" onclick="showModule('supply',this)">
+        <span class="nav-icon">🚛</span>
+        <span class="nav-label">Supply Chain</span>
+      </div>
+      <div class="nav-item" id="nav-reports" onclick="showModule('reports',this)">
+        <span class="nav-icon">📑</span>
+        <span class="nav-label">Reports</span>
+      </div>
+      <div class="nav-item" id="nav-settings" onclick="showModule('settings',this)">
+        <span class="nav-icon">⚙</span>
+        <span class="nav-label">Settings</span>
+      </div>
+
+      <!-- Commodity Watchlist -->
+      <div class="sb-section-label" style="margin-top:6px">Watchlist</div>
+      <div class="sb-comm-section" id="sb-comm-list"></div>
+    </div>
+
+    <div class="sb-bottom" onclick="showModule('settings',document.getElementById('nav-settings'))">
+      <div class="avatar">S</div>
+      <div>
+        <div class="sb-user-name">Sandip Gupta</div>
+        <div class="sb-user-role">Head of Commodity Risk · RB Group</div>
+      </div>
+      <div class="sb-settings-btn">⚙</div>
+    </div>
+
+    <!-- Copyright -->
+    <div style="padding:8px 18px 12px;text-align:center;border-top:1px solid rgba(255,255,255,.04)">
+      <div style="font-size:9.5px;color:rgba(255,255,255,.18);letter-spacing:0.06em;line-height:1.6">
+        © Sandip Dixit · NERVURE Platform<br>
+        <span style="font-size:8.5px;opacity:0.7">All rights reserved · Confidential</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <div id="main">
+    <!-- TOPBAR -->
+    <div id="topbar">
+      <div class="topbar-breadcrumb" id="topbar-breadcrumb">
+        <span>Dashboard</span>
+      </div>
+
+      <div class="search-trigger" onclick="openCmd()">
+        <span class="search-icon">⌕</span>
+        <span class="search-placeholder">Search, ask AI, or navigate…</span>
+        <span class="search-kbd">⌘K</span>
+      </div>
+
+      <div class="tb-right">
+        <div class="live-pill">
+          <div class="live-dot"></div>
+          <span class="live-txt">50 Signals</span>
+        </div>
+        <div class="topbar-chip">🕐 23 Feb 2026</div>
+        <div class="topbar-chip teal">IFRS 9 ✓</div>
+        <div class="topbar-icon-btn" onclick="toggleNotif()" title="Notifications">
+          🔔
+          <div class="notif-badge"></div>
+        </div>
+        <div class="topbar-icon-btn" title="Help">?</div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content"></div>
+
+    <!-- FOOTER -->
+    <div id="footer" style="
+      height:32px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      border-top:1px solid var(--border-s);
+      background:rgba(255,255,255,.6);
+      backdrop-filter:blur(8px);
+    ">
+      <span style="font-size:11px; color:var(--ink-ghost); letter-spacing:0.06em; font-weight:500; user-select:none;">
+        © Sandip Dixit · NERVURE CPG Financial OS · All rights reserved
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ NOTIFICATION PANEL ═══════ -->
+<div id="notif-panel">
+  <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+    <div style="font-size:14px;font-weight:700">Notifications</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-ghost btn-xs" onclick="markAllRead()">Mark all read</button>
+      <span onclick="closeNotif()" style="cursor:pointer;color:var(--ink-faint);font-size:18px;padding:2px 4px">×</span>
+    </div>
+  </div>
+  <div style="overflow-y:auto;flex:1">
+    <div id="notif-list"></div>
+  </div>
+</div>
+
+<!-- ═══════ COMMAND PALETTE ═══════ -->
+<div id="cmd-overlay" onclick="closeCmd(event)">
+  <div id="cmd-palette" onclick="event.stopPropagation()">
+    <input id="cmd-input" placeholder="Search pages, commodities, or ask AI…" oninput="cmdFilter(this.value)" onkeydown="cmdKeydown(event)" autofocus />
+    <div id="cmd-results" style="max-height:320px;overflow-y:auto"></div>
+    <div style="padding:10px 20px;border-top:1px solid var(--border);display:flex;gap:14px">
+      <span style="font-size:11px;color:var(--ink-faint)">↑↓ Navigate</span>
+      <span style="font-size:11px;color:var(--ink-faint)">↩ Select</span>
+      <span style="font-size:11px;color:var(--ink-faint)">ESC Close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ══════════════════════════════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════════════════════════════
+const COMMODITIES = [
+  {id:'eth',name:'Ethylene',region:'EU',price:1175,unit:'USD/ton',cov:78,signal:'BUY',chg:+2.3,m2m:+1.07,conf:87,spend:28.4,cat:'Petrochem',priority:9.2,spark:[1050,1080,1095,1120,1160,1140,1175]},
+  {id:'nfdm',name:'NFDM',region:'US',price:1.19,unit:'USD/lb',cov:82,signal:'BUY',chg:-1.1,m2m:+0.78,conf:91,spend:26.0,cat:'Dairy',priority:8.1,spark:[1.05,1.09,1.12,1.15,1.18,1.17,1.19]},
+  {id:'wmp',name:'WMP',region:'EU',price:3230,unit:'USD/MT',cov:65,signal:'HOLD',chg:+0.4,m2m:+0.96,conf:74,spend:22.8,cat:'Dairy',priority:7.4,spark:[2900,2980,3050,3100,3180,3210,3230]},
+  {id:'smp',name:'SMP',region:'NZ',price:2787,unit:'USD/MT',cov:54,signal:'BUY',chg:+5.2,m2m:+0.47,conf:68,spend:6.2,cat:'Dairy',priority:6.8,spark:[2400,2550,2620,2700,2750,2760,2787]},
+  {id:'palm',name:'Palm Oil',region:'MY',price:4120,unit:'USD/MT',cov:71,signal:'HOLD',chg:-3.4,m2m:+1.34,conf:82,spend:41.2,cat:'Veg Oil',priority:8.7,spark:[3800,3900,4050,4200,4150,4100,4120]},
+  {id:'prop',name:'Propylene',region:'EU',price:890,unit:'USD/ton',cov:45,signal:'SELL',chg:-6.1,m2m:-0.23,conf:79,spend:19.6,cat:'Petrochem',priority:5.3,spark:[980,950,930,910,890,895,890]},
+];
+
+const SIGNALS_DATA = [
+  {type:'SATELLITE',icon:'🛰',text:'Crop density index for Malaysian palm plantations −8% MoM. Pre-emptive hedge window: 24–72hrs before market reprices.',comm:'Palm Oil',impact:'HIGH',dir:'up',age:'2h ago'},
+  {type:'AIS SHIPPING',icon:'🚢',text:'Red Sea container diversions +34% WoW. Ethylene spot premium expected +8–12% within 5 trading days.',comm:'Ethylene',impact:'HIGH',dir:'up',age:'3h ago'},
+  {type:'WEATHER',icon:'🌦',text:'La Niña weakening over NZ — Fonterra crop revision expected. WMP forward curve may soften 4–6%.',comm:'WMP NZ',impact:'MED',dir:'down',age:'5h ago'},
+  {type:'CENTRAL BANK',icon:'🏛',text:'ECB hold confirmed. EUR/USD stable. No FX impact on EUR-denominated dairy hedges.',comm:'All Dairy',impact:'LOW',dir:'neutral',age:'6h ago'},
+  {type:'PROXY HEDGE',icon:'🔗',text:'Naphtha-Propylene spread at 10yr low. Synthetic hedge via Naphtha futures is 37% more efficient than direct Propylene OTC.',comm:'Propylene',impact:'HIGH',dir:'up',age:'8h ago'},
+  {type:'SENTIMENT',icon:'📊',text:'Bloomberg Commodity Fund Flow Index: −$4.2B outflow from agri futures. Short-term price pressure on dairy.',comm:'Dairy',impact:'MED',dir:'down',age:'11h ago'},
+  {type:'SUPPLY CHAIN',icon:'🏭',text:'BASF cracker maintenance scheduled Q2. Ethylene supply tightening +3–5% expected May–June.',comm:'Ethylene',impact:'MED',dir:'up',age:'14h ago'},
+  {type:'CARBON CBAM',icon:'🌿',text:'EU CBAM carbon premium for Ethylene imports from non-EU: +€28/ton. Factor in synthetic routes.',comm:'Ethylene',impact:'MED',dir:'up',age:'1d ago'},
+];
+
+const REGRET_DATA = [
+  {date:'Nov 2025',comm:'Ethylene',action:'Overrode AI → Reduced coverage to 65%',outcome:'Price rose +14.2%',cost:'-£0.31M',won:false},
+  {date:'Sep 2025',comm:'Palm Oil',action:'Overrode AI → Held coverage (AI said sell)',outcome:'Price fell −8.7%',cost:'-£0.27M',won:false},
+  {date:'Jul 2025',comm:'NFDM US',action:'Overrode AI → Increased to 92%',outcome:'Price rose +6.3% — AI was right',cost:'+£0.19M',won:true},
+  {date:'May 2025',comm:'WMP EU',action:'Overrode AI → Delayed hedge by 3 weeks',outcome:'Price moved +11.1% in 3wks',cost:'-£0.24M',won:false},
+];
+
+const GENOME_PRODUCTS = [
+  {name:'Dettol Liquid',sku:'3.2M units/yr',ingredients:[
+    {name:'Ethanol (94%)',pct:32,comm:'Ethylene',exp:'High'},
+    {name:'Pine Oil (4%)',pct:8,comm:'Pine Resin',exp:'Med'},
+    {name:'PET Bottle',pct:12,comm:'Propylene',exp:'Med'},
+  ]},
+  {name:'Harpic Toilet Bowl',sku:'2.8M units/yr',ingredients:[
+    {name:'HCl Acid (40%)',pct:24,comm:'Chlorine',exp:'Low'},
+    {name:'Surfactants (8%)',pct:18,comm:'Ethylene',exp:'High'},
+    {name:'HDPE Bottle',pct:10,comm:'Ethylene',exp:'High'},
+  ]},
+  {name:'Enfamil Formula',sku:'1.9M units/yr',ingredients:[
+    {name:'Skim Milk Powder (62%)',pct:62,comm:'NFDM',exp:'High'},
+    {name:'Palm Olein (18%)',pct:18,comm:'Palm Oil',exp:'High'},
+    {name:'Whey Protein (12%)',pct:12,comm:'WMP',exp:'Med'},
+  ]},
+  {name:'Finish Dishwash',sku:'4.1M units/yr',ingredients:[
+    {name:'Surfactant blend (35%)',pct:35,comm:'Propylene',exp:'Med'},
+    {name:'Rinse Aid (15%)',pct:15,comm:'Ethylene',exp:'High'},
+    {name:'PP Container',pct:8,comm:'Propylene',exp:'Med'},
+  ]},
+];
+
+const SCENARIOS = [
+  {id:'geo',label:'🌍 Geopolitical Shock',desc:'Red Sea closure, sanctions, supply disruption'},
+  {id:'climate',label:'🌦 Climate / La Niña',desc:'Crop failures, drought, flood disruption'},
+  {id:'macro',label:'📉 Macro Downturn',desc:'Recession, rate spike, currency collapse'},
+  {id:'supply',label:'🏭 Supply Disruption',desc:'Plant shutdown, labor strike, force majeure'},
+];
+
+const POLICIES = [
+  {text:'Maximum 85% coverage on any single commodity during earnings black-out periods', active:true},
+  {text:'Never hedge Propylene above 70% when futures contango > 8%', active:true},
+  {text:'Minimum 50% coverage on all Tier 1 commodities at all times', active:true},
+];
+
+const PEERS = [
+  {comm:'Dairy (Overall)',you:65,peer:83,reco:80},
+  {comm:'Palm Oil',you:71,peer:59,reco:75},
+  {comm:'Petrochemicals',you:62,peer:68,reco:70},
+  {comm:'Specialty Chem',you:38,peer:44,reco:55},
+];
+
+const COUNTERPARTIES = [
+  {name:'Goldman Sachs',exposure:'£42M',rating:'AA−',cds:28,risk:'Low'},
+  {name:'Deutsche Bank',exposure:'£31M',rating:'A+',cds:54,risk:'Medium'},
+  {name:'Cargill Risk Mgmt',exposure:'£22M',rating:'A−',cds:41,risk:'Low'},
+  {name:'Macquarie Comm.',exposure:'£18M',rating:'BBB+',cds:87,risk:'Medium'},
+];
+
+const NOTIFICATIONS = [
+  {icon:'⚡',title:'AI Oracle: 3 new recommendations',sub:'Ethylene +7%, SMP +12%, Propylene re-evaluate',time:'5m ago',unread:true,type:'ai'},
+  {icon:'🛰',title:'Satellite alert: Palm Oil Malaysia',sub:'Crop density down 8% — hedge window open',time:'2h ago',unread:true,type:'signal'},
+  {icon:'🚢',title:'AIS: Red Sea diversions +34%',sub:'Ethylene premium expected +8–12% in 5 days',time:'3h ago',unread:true,type:'signal'},
+  {icon:'📋',title:'IFRS 9 test passed — Ethylene',sub:'Hedge effectiveness confirmed at 94.2%',time:'1d ago',unread:false,type:'compliance'},
+  {icon:'⚠️',title:'Behavioral bias flagged',sub:'Anchoring detected on Ethylene coverage decisions',time:'1d ago',unread:false,type:'risk'},
+];
+
+const CMD_ITEMS = [
+  {icon:'◎',label:'Dashboard',desc:'Main overview',action:()=>showModule('dashboard',document.getElementById('nav-dashboard'))},
+  {icon:'⚡',label:'AI Oracle',desc:'Run AI recommendations',action:()=>showModule('oracle',document.getElementById('nav-oracle'))},
+  {icon:'📈',label:'Commodity Desk',desc:'Live commodity portfolio',action:()=>showModule('commodity',document.getElementById('nav-commodity'))},
+  {icon:'◎',label:'Scoring Profiles',desc:'Portfolio health & decision scoring',action:()=>showModule('profiles',document.getElementById('nav-profiles'))},
+  {icon:'🧬',label:'Product Genome',desc:'SKU ingredient mapping',action:()=>showModule('genome',document.getElementById('nav-genome'))},
+  {icon:'◈',label:'Scenario Engine',desc:'Stress-testing & tail risk',action:()=>showModule('scenarios',document.getElementById('nav-scenarios'))},
+  {icon:'🛰',label:'Signal Lab',desc:'50+ alternative data streams',action:()=>showModule('signals',document.getElementById('nav-signals'))},
+  {icon:'💰',label:'Revenue Engine',desc:'Dynamic pricing & elasticity',action:()=>showModule('revenue',document.getElementById('nav-revenue'))},
+  {icon:'📊',label:'Demand Forecast',desc:'13-week ML forecasting',action:()=>showModule('demand',document.getElementById('nav-demand'))},
+  {icon:'💡',label:'Profitability',desc:'SKU-level margin analytics',action:()=>showModule('profitability',document.getElementById('nav-profitability'))},
+  {icon:'🚛',label:'Supply Chain',desc:'Fleet & logistics command',action:()=>showModule('supply',document.getElementById('nav-supply'))},
+  {icon:'📑',label:'Reports',desc:'Executive reporting & exports',action:()=>showModule('reports',document.getElementById('nav-reports'))},
+  {icon:'⚙',label:'Settings',desc:'Platform preferences',action:()=>showModule('settings',document.getElementById('nav-settings'))},
+];
+
+// STATE
+let currentModule = 'dashboard';
+let oracleRan = false;
+let scenarioChart = null;
+let signalDonutBuilt = false;
+let biasRadarBuilt = false;
+let phsChartBuilt = false;
+let critChartBuilt = false;
+let selectedScenarioIdx = 0;
+let cmdSelectedIdx = -1;
+let cmdResults = [];
+let activeCharts = {};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════════════════════
+function showModule(module, navEl) {
+  currentModule = module;
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+
+  // Update breadcrumb
+  const labels = {
+    dashboard:'Dashboard',oracle:'AI Oracle',commodity:'Commodity Desk',
+    profiles:'Scoring Profiles',genome:'Product Genome',scenarios:'Scenario Engine',
+    signals:'Signal Lab',revenue:'Revenue Engine',demand:'Demand Forecast',
+    profitability:'Profitability',supply:'Supply Chain',reports:'Reports',settings:'Settings'
+  };
+  document.getElementById('topbar-breadcrumb').innerHTML =
+    `<span style="color:var(--ink-faint)">NERVURE</span>
+     <span style="color:var(--ink-ghost)">›</span>
+     <strong>${labels[module]||module}</strong>`;
+
+  const content = document.getElementById('content');
+  content.style.opacity = '0';
+  content.style.transform = 'translateY(8px)';
+
+  // Destroy old charts
+  Object.values(activeCharts).forEach(c => { try { c.destroy(); } catch(e){} });
+  activeCharts = {};
+  scenarioChart = null;
+  signalDonutBuilt = false;
+  biasRadarBuilt = false;
+  phsChartBuilt = false;
+  critChartBuilt = false;
+
+  requestAnimationFrame(() => {
+    const html = getModuleHTML(module);
+    content.innerHTML = html;
+    content.style.transition = 'none';
+    content.style.opacity = '1';
+    content.style.transform = 'translateY(0)';
+    requestAnimationFrame(() => {
+      content.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+      afterModuleRender(module);
+    });
+  });
+}
+
+function getModuleHTML(m) {
+  switch(m) {
+    case 'dashboard': return renderDashboard();
+    case 'oracle': return renderOracle();
+    case 'commodity': return renderCommodity();
+    case 'profiles': return renderProfiles();
+    case 'genome': return renderGenome();
+    case 'scenarios': return renderScenarios();
+    case 'signals': return renderSignals();
+    case 'revenue': return renderRevenue();
+    case 'demand': return renderDemand();
+    case 'profitability': return renderProfitability();
+    case 'supply': return renderSupply();
+    case 'reports': return renderReports();
+    case 'settings': return renderSettings();
+    default: return '<div>Module not found</div>';
+  }
+}
+
+function afterModuleRender(m) {
+  switch(m) {
+    case 'dashboard': buildDashboard(); break;
+    case 'oracle': if(!oracleRan) runOracle(); else showOracleResults(); break;
+    case 'commodity': buildCommodityTable(); buildSignalFeed('signal-feed', 5); break;
+    case 'profiles': buildProfiles(); break;
+    case 'genome': buildGenomeTree(); buildGenomeCommodityBtns(); break;
+    case 'scenarios': initScenario(); break;
+    case 'signals': buildSignals(); break;
+    case 'revenue': buildRevenue(); break;
+    case 'demand': buildDemand(); break;
+    case 'profitability': buildProfitability(); break;
+    case 'supply': buildSupply(); break;
+    case 'reports': break;
+    case 'settings': break;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SIDEBAR
+// ══════════════════════════════════════════════════════════════════════════════
+function buildSidebar() {
+  const el = document.getElementById('sb-comm-list');
+  const sigColors = {BUY:'var(--green)',HOLD:'var(--amber)',SELL:'var(--red)'};
+  el.innerHTML = COMMODITIES.map(c => `
+    <div class="comm-mini" onclick="showModule('commodity',document.getElementById('nav-commodity'))">
+      <div class="comm-dot" style="background:${sigColors[c.signal]}"></div>
+      <div class="comm-mini-name">${c.name}</div>
+      <div class="comm-mini-val" style="color:${sigColors[c.signal]}">${c.cov}%</div>
+    </div>`).join('');
+
+  buildNotifications();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ══════════════════════════════════════════════════════════════════════════════
+function buildNotifications() {
+  const el = document.getElementById('notif-list');
+  el.innerHTML = NOTIFICATIONS.map((n,i) => `
+    <div style="display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border-s);cursor:pointer;transition:var(--transition);${n.unread?'background:rgba(13,148,136,.03)':''}"
+         onmouseenter="this.style.background='var(--teal-glow-s)'" onmouseleave="this.style.background='${n.unread?'rgba(13,148,24,.03)':''}'"
+         onclick="readNotif(${i})">
+      <div style="font-size:20px;flex-shrink:0;margin-top:2px">${n.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+          <div style="font-size:13px;font-weight:${n.unread?'700':'500'};color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.title}</div>
+          ${n.unread?'<div style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></div>':''}
+        </div>
+        <div style="font-size:11.5px;color:var(--ink-soft);line-height:1.4">${n.sub}</div>
+        <div style="font-size:10.5px;color:var(--ink-faint);margin-top:3px">${n.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleNotif() {
+  const p = document.getElementById('notif-panel');
+  p.classList.toggle('open');
+  if (p.classList.contains('open')) {
+    document.addEventListener('click', closeNotifOutside, true);
+  }
+}
+function closeNotif() {
+  document.getElementById('notif-panel').classList.remove('open');
+  document.removeEventListener('click', closeNotifOutside, true);
+}
+function closeNotifOutside(e) {
+  const p = document.getElementById('notif-panel');
+  const btn = e.target.closest('.topbar-icon-btn');
+  if (!p.contains(e.target) && !btn) closeNotif();
+}
+function readNotif(i) {
+  NOTIFICATIONS[i].unread = false;
+  buildNotifications();
+}
+function markAllRead() {
+  NOTIFICATIONS.forEach(n => n.unread = false);
+  buildNotifications();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMMAND PALETTE
+// ══════════════════════════════════════════════════════════════════════════════
+function openCmd() {
+  document.getElementById('cmd-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('cmd-input').focus(), 50);
+  cmdFilter('');
+}
+function closeCmd(e) {
+  if (!e || e.target === document.getElementById('cmd-overlay')) {
+    document.getElementById('cmd-overlay').classList.remove('open');
+    document.getElementById('cmd-input').value = '';
+    cmdSelectedIdx = -1;
+  }
+}
+function cmdFilter(q) {
+  q = q.toLowerCase().trim();
+  cmdResults = q ? CMD_ITEMS.filter(i => i.label.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q)) : CMD_ITEMS;
+  cmdSelectedIdx = -1;
+  renderCmdResults();
+}
+function renderCmdResults() {
+  const el = document.getElementById('cmd-results');
+  if (!cmdResults.length) { el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--ink-faint);font-size:13px">No results</div>'; return; }
+  el.innerHTML = cmdResults.map((r,i) => `
+    <div class="cmd-result${i===cmdSelectedIdx?' selected':''}" onclick="runCmd(${i})">
+      <div class="cmd-result-icon">${r.icon}</div>
+      <div>
+        <div class="cmd-result-label">${r.label}</div>
+        <div class="cmd-result-desc">${r.desc}</div>
+      </div>
+    </div>`).join('');
+}
+function runCmd(i) {
+  if (cmdResults[i]) { cmdResults[i].action(); closeCmd(); }
+}
+function cmdKeydown(e) {
+  if (e.key === 'Escape') { closeCmd(); return; }
+  if (e.key === 'ArrowDown') { cmdSelectedIdx = Math.min(cmdSelectedIdx+1, cmdResults.length-1); renderCmdResults(); }
+  if (e.key === 'ArrowUp') { cmdSelectedIdx = Math.max(cmdSelectedIdx-1, 0); renderCmdResults(); }
+  if (e.key === 'Enter' && cmdSelectedIdx >= 0) { runCmd(cmdSelectedIdx); }
+}
+document.addEventListener('keydown', e => { if ((e.metaKey||e.ctrlKey) && e.key==='k') { e.preventDefault(); openCmd(); } });
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HELPER: SPARKLINE
+// ══════════════════════════════════════════════════════════════════════════════
+function drawSparkline(canvasId, data, color) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const min = Math.min(...data), max = Math.max(...data);
+  const range = max - min || 1;
+  const pts = data.map((v,i) => ({ x: (i/(data.length-1))*w, y: h - ((v-min)/range)*(h-4) - 2 }));
+
+  ctx.clearRect(0,0,w,h);
+  const grad = ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0, color+'40'); grad.addColorStop(1, color+'05');
+
+  ctx.beginPath(); ctx.moveTo(pts[0].x, h);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, h); ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.stroke();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HELPER: SIGNAL FEED
+// ══════════════════════════════════════════════════════════════════════════════
+function buildSignalFeed(elId, limit) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const data = limit ? SIGNALS_DATA.slice(0,limit) : SIGNALS_DATA;
+  const impColor = {HIGH:'var(--red)',MED:'var(--amber)',LOW:'var(--green)'};
+  const dirIcon = {up:'↑',down:'↓',neutral:'→'};
+  el.innerHTML = data.map(s => `
+    <div class="signal-item" onclick="">
+      <div class="signal-icon">${s.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <span class="signal-type" style="color:${impColor[s.impact]}">${s.type}</span>
+          <span class="badge ${s.impact==='HIGH'?'badge-red':s.impact==='MED'?'badge-amber':'badge-buy'}" style="font-size:9px">${s.impact}</span>
+          <span style="font-size:12px;color:${s.dir==='up'?'var(--green)':'var(--red)'};margin-left:auto">${dirIcon[s.dir]}</span>
+        </div>
+        <div class="signal-text">${s.text}</div>
+        <div class="signal-meta">
+          <span style="background:var(--teal-glow);color:var(--teal);padding:1px 5px;border-radius:4px;font-weight:600;font-size:10px">${s.comm}</span>
+          <span>${s.age}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+function renderDashboard() {
+  return `
+  <div class="animate-in">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-content">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+          <div style="flex:1">
+            <div class="hero-eyebrow">Monday · 23 Feb 2026 · Q1 Hedging Cycle</div>
+            <div class="hero-title">Good morning, Sandip.<br><em>3 commodities</em> need action today.</div>
+            <div class="hero-sub">AI auto-tuned 4 parameter sets overnight · Ethylene coverage reco +7% · Proxy hedge discovered for Propylene · New Red Sea signal detected</div>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="showModule('oracle',document.getElementById('nav-oracle'))">⚡ Run AI Oracle</button>
+              <button class="btn btn-gold" onclick="showModule('scenarios',document.getElementById('nav-scenarios'))">◈ Scenario Engine</button>
+              <button class="btn btn-dark" onclick="showModule('profiles',document.getElementById('nav-profiles'))">◎ Scoring Profiles</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;flex-shrink:0">
+            <div class="hero-stat">
+              <div class="hero-stat-val">84</div>
+              <div class="hero-stat-lbl">Portfolio Health</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-val">+£4.3M</div>
+              <div class="hero-stat-lbl">YTD Mark-to-Market</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-val">77%</div>
+              <div class="hero-stat-lbl">Avg Coverage</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="g5 animate-in-delay-1" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Total Hedged Spend</div>
+        <div class="kpi-val">£144M</div>
+        <div class="kpi-delta up">↑ +8.2% YoY</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Active Instruments</div>
+        <div class="kpi-val">47</div>
+        <div class="kpi-delta neutral">Across 6 commodities</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Unhedged Exposure</div>
+        <div class="kpi-val">£33.2M</div>
+        <div class="kpi-delta down">↓ 3 at-risk</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--purple)">
+        <div class="kpi-label">IFRS 9 Effectiveness</div>
+        <div class="kpi-val">94.2%</div>
+        <div class="kpi-delta up">✓ All pass</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--gold)">
+        <div class="kpi-label">AI Accuracy (12mo)</div>
+        <div class="kpi-val">81.4%</div>
+        <div class="kpi-delta up">↑ +3.1% vs Q4</div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="g-main animate-in-delay-2">
+      <!-- Commodity Table -->
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">Live Commodity Portfolio</div>
+            <div class="card-sub">Real-time prices · AI signals · Coverage vs recommendation</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm" onclick="showModule('commodity',document.getElementById('nav-commodity'))">Full View →</button>
+          </div>
+        </div>
+        <div class="tbl-head" style="grid-template-columns:1fr 80px 65px 72px 80px 60px 56px 54px">
+          <span>Commodity</span><span>Price</span><span>Change</span>
+          <span>Signal</span><span>Coverage</span><span>M2M £M</span>
+          <span>Priority</span><span>Trend</span>
+        </div>
+        <div id="comm-table"></div>
+      </div>
+
+      <!-- Right Column -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <!-- Signal Feed -->
+        <div class="card" style="overflow:hidden">
+          <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="card-title">Alternative Signals</div>
+              <div class="card-sub">Live intelligence feed</div>
+            </div>
+            <div class="live-pill"><div class="live-dot"></div><span class="live-txt">Live</span></div>
+          </div>
+          <div id="signal-feed"></div>
+          <div style="padding:12px 18px;border-top:1px solid var(--border-s);text-align:center">
+            <button class="btn btn-ghost btn-sm" onclick="showModule('signals',document.getElementById('nav-signals'))">View All 50 Signals →</button>
+          </div>
+        </div>
+
+        <!-- Execution Windows -->
+        <div class="card" style="padding:18px 20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:3px">🎯 Execution Windows</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:14px">AI-detected timing opportunities</div>
+
+          <div class="window-card window-open">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+              <span style="font-size:11px;font-weight:800;color:var(--green)">🟢 WINDOW OPEN</span>
+              <span style="font-size:11px;color:var(--ink-faint)">Closes in 16h</span>
+            </div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:3px">Ethylene EU</div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.55">Spot premium compression. AI confidence 87%. Optimal entry: £1,172–£1,178. Target +9% coverage. M2M uplift: <strong style="color:var(--green)">+£1.07M</strong></div>
+            <div style="margin-top:10px">
+              <button class="btn btn-primary btn-sm" onclick="showModule('oracle',document.getElementById('nav-oracle'))">Execute Hedge</button>
+            </div>
+          </div>
+
+          <div class="window-card window-closed">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+              <span style="font-size:11px;font-weight:800;color:var(--red)">🔴 WINDOW CLOSED</span>
+              <span style="font-size:11px;color:var(--ink-faint)">Closed 1h ago</span>
+            </div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:3px">SMP NZ</div>
+            <div style="font-size:12px;color:var(--ink-soft);line-height:1.55">Price rebounded +4.2%. Missed window. Potential: <strong style="color:var(--red)">−£0.18M</strong></div>
+            <div style="margin-top:10px"><span class="badge badge-red">Regret Logged</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildDashboard() {
+  buildCommodityTable();
+  buildSignalFeed('signal-feed', 5);
+}
+
+function buildCommodityTable() {
+  const el = document.getElementById('comm-table');
+  if (!el) return;
+  const sigClass = {BUY:'badge-buy',HOLD:'badge-hold',SELL:'badge-sell'};
+  const sigColor = {BUY:'var(--green)',HOLD:'var(--amber)',SELL:'var(--red)'};
+  const prioColor = p => p>=8.5?'var(--red)':p>=7?'var(--amber)':'var(--green)';
+
+  el.innerHTML = COMMODITIES.map((c,i) => {
+    const chgColor = c.chg > 0 ? 'var(--green)' : 'var(--red)';
+    const covColor = c.cov>=75?'var(--green)':c.cov>=60?'var(--amber)':'var(--red)';
+    const priceStr = c.price>10 ? c.price.toLocaleString() : c.price.toFixed(2);
+    return `
+    <div class="tbl-row" style="grid-template-columns:1fr 80px 65px 72px 80px 60px 56px 54px"
+         onclick="showModule('profiles',document.getElementById('nav-profiles'))">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;color:var(--ink)">${c.name}</div>
+        <div style="font-size:11px;color:var(--ink-faint)">${c.cat} · ${c.region}</div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink-mid)">${priceStr}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:${chgColor}">${c.chg>0?'+':''}${c.chg}%</div>
+      <div><span class="badge ${sigClass[c.signal]}">${c.signal}</span></div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:${covColor}">${c.cov}%</div>
+        <div style="margin-top:4px"><div class="prog-bar" style="width:100%;height:3px"><div class="prog-fill" style="width:${c.cov}%;background:${covColor}"></div></div></div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:${c.m2m>=0?'var(--green)':'var(--red)'}">${c.m2m>=0?'+':''}£${c.m2m}M</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:${prioColor(c.priority)}">${c.priority}</div>
+      <div><canvas id="spark-${c.id}" width="54" height="24" class="sparkline-canvas"></canvas></div>
+    </div>`
+  }).join('');
+
+  COMMODITIES.forEach(c => {
+    const color = c.spark[c.spark.length-1] >= c.spark[0] ? '#10B981' : '#EF4444';
+    drawSparkline(`spark-${c.id}`, c.spark, color);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AI ORACLE
+// ══════════════════════════════════════════════════════════════════════════════
+function renderOracle() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">⚡ AI Oracle Engine</div>
+        <div class="page-sub">Bayesian optimization · 340 scenario runs · IFRS 9 tested · Behavioral bias detection</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="oracleRan=false;showModule('oracle',document.getElementById('nav-oracle'))">↺ Re-run</button>
+        <button class="btn btn-primary" onclick="">⬇ Export Audit Trail</button>
+      </div>
+    </div>
+
+    <div id="oracle-loading">
+      <div class="card" style="padding:40px 32px;text-align:center">
+        <div style="font-size:36px;margin-bottom:16px;animation:float 2s ease-in-out infinite">⚡</div>
+        <div style="font-size:20px;font-weight:700;margin-bottom:6px">AI Oracle Processing</div>
+        <div style="font-size:13px;color:var(--ink-soft);margin-bottom:28px">Fusing 50+ data streams · Running Bayesian optimization</div>
+        <div style="max-width:440px;margin:0 auto;height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:24px">
+          <div id="oracle-progress" style="height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-l));border-radius:2px;width:0;transition:width .4s ease"></div>
+        </div>
+        <div id="oracle-steps" style="max-width:440px;margin:0 auto;text-align:left"></div>
+      </div>
+    </div>
+
+    <div id="oracle-results" style="display:none">
+      <!-- Summary KPIs -->
+      <div class="g4" style="margin-bottom:16px">
+        <div class="kpi" style="--kpi-accent:var(--green)">
+          <div class="kpi-label">Estimated P&L Uplift</div>
+          <div class="kpi-val">+£3.8M</div>
+          <div class="kpi-delta up">If all recommendations adopted</div>
+        </div>
+        <div class="kpi" style="--kpi-accent:var(--teal)">
+          <div class="kpi-label">Avg AI Confidence</div>
+          <div class="kpi-val">80.2%</div>
+          <div class="kpi-delta neutral">Across 6 commodities</div>
+        </div>
+        <div class="kpi" style="--kpi-accent:var(--amber)">
+          <div class="kpi-label">Behavioral Bias Flags</div>
+          <div class="kpi-val">1</div>
+          <div class="kpi-delta down">Anchoring · Ethylene</div>
+        </div>
+        <div class="kpi" style="--kpi-accent:var(--purple)">
+          <div class="kpi-label">IFRS 9 Status</div>
+          <div class="kpi-val">5 / 6</div>
+          <div class="kpi-delta neutral">1 requires review</div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card" style="margin-bottom:16px;overflow:hidden">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">AI Recommendations</div>
+            <div class="card-sub">Ranked by expected P&L impact · Accept individually or batch execute</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm">Filter by Signal</button>
+            <button class="btn btn-primary btn-sm" onclick="alert('Executing all AI recommendations…')">Accept All ✓</button>
+          </div>
+        </div>
+        <div class="tbl-head" style="grid-template-columns:1fr 70px 70px 80px 80px 1fr 130px">
+          <span>Commodity</span><span>Signal</span><span>Current</span>
+          <span>AI Target</span><span>Δ Impact</span><span>Confidence</span><span>Actions</span>
+        </div>
+        <div id="oracle-reco-cards"></div>
+      </div>
+
+      <!-- Oracle Insights -->
+      <div class="g2" style="margin-bottom:16px">
+        <div class="card" style="padding:22px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px">🧠 Parameter Optimization</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Bayesian auto-tuning ran 340 scenario combinations</div>
+          ${['Risk Appetite Weight','Momentum Alpha','Mean-Reversion Beta','Seasonal Adjustment','Confidence Threshold'].map((p,i)=>`
+            <div class="prog-row" style="margin-bottom:12px">
+              <div class="prog-label">${p}</div>
+              <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:${[72,85,61,78,90][i]}%;background:var(--teal)"></div></div>
+              <div class="prog-val" style="color:var(--teal)">${[72,85,61,78,90][i]}%</div>
+            </div>`).join('')}
+          <div class="diff-banner">
+            <div class="diff-icon">🤖</div>
+            <div>
+              <div class="diff-title">Self-Calibrating Parameters</div>
+              <div class="diff-text">Unlike static CTRM systems, Nervure auto-tunes all model parameters nightly using Bayesian optimization against your actual outcomes — no consultant needed.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="padding:22px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px">📋 Natural Language Audit Trail</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Board-ready reasoning for every recommendation</div>
+          ${COMMODITIES.map(c=>`
+            <div style="padding:10px 12px;border:1px solid var(--border-s);border-radius:var(--r10);margin-bottom:8px;transition:var(--transition)" onmouseenter="this.style.borderColor='var(--border-m)'" onmouseleave="this.style.borderColor='var(--border-s)'">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <span style="font-size:12.5px;font-weight:700">${c.name}</span>
+                <span class="badge badge-teal" style="font-size:9px">IFRS 9 ✓</span>
+              </div>
+              <div style="font-size:11.5px;color:var(--ink-soft);line-height:1.55">
+                ${c.signal==='BUY'?`Upward price momentum (+${c.chg}%), satellite data confirms supply tightening. Recommend coverage increase to capture ${c.conf}% confidence window.`:
+                  c.signal==='HOLD'?`Mixed signals. Await confirmation from weather data before adjusting. Current coverage adequate at ${c.cov}%.`:
+                  `Downward trend (${c.chg}%), excess supply detected. Reduce exposure via structured unwind. Proxy hedge via Naphtha available.`}
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function runOracle() {
+  const loadEl = document.getElementById('oracle-loading');
+  const resEl = document.getElementById('oracle-results');
+  if (!loadEl || !resEl) return;
+  loadEl.style.display = 'block';
+  resEl.style.display = 'none';
+
+  const steps = [
+    'Ingesting CME, ICE, LME live futures feeds…',
+    'Bayesian parameter optimization — 340 scenario runs…',
+    'Fusing 50+ alternative data signals (satellite, AIS, weather)…',
+    'Running Synthetic Hedge Constructor for illiquid commodities…',
+    'Checking behavioral bias profile — anchoring flagged on Ethylene…',
+    'IFRS 9 hedge effectiveness prospective test…',
+    'Generating natural language audit trail…',
+    'Recommendations ready ✓',
+  ];
+
+  const stepsEl = document.getElementById('oracle-steps');
+  stepsEl.innerHTML = steps.map((s,i) => `
+    <div class="oracle-step" id="ostep-${i}">
+      <div class="step-icon" id="oicon-${i}">○</div>
+      <div style="flex:1;color:var(--ink-soft)">${s}</div>
+      <div class="step-bar" style="width:80px"><div class="step-fill" id="ofill-${i}"></div></div>
+    </div>`).join('');
+
+  let i = 0;
+  const prog = document.getElementById('oracle-progress');
+  const tick = setInterval(() => {
+    if (i > 0) {
+      document.getElementById(`oicon-${i-1}`).textContent = '✓';
+      document.getElementById(`oicon-${i-1}`).style.color = 'var(--green)';
+      document.getElementById(`ostep-${i-1}`).classList.remove('active');
+      document.getElementById(`ostep-${i-1}`).classList.add('done');
+    }
+    if (i < steps.length) {
+      const stepEl = document.getElementById(`ostep-${i}`);
+      stepEl.classList.add('active');
+      document.getElementById(`oicon-${i}`).textContent = '⟳';
+      document.getElementById(`oicon-${i}`).style.color = 'var(--teal)';
+      document.getElementById(`ofill-${i}`).style.width = '100%';
+      prog.style.width = `${((i+1)/steps.length)*100}%`;
+      i++;
+    } else {
+      clearInterval(tick);
+      setTimeout(() => {
+        loadEl.style.display = 'none';
+        showOracleResults();
+        oracleRan = true;
+      }, 400);
+    }
+  }, 620);
+}
+
+function showOracleResults() {
+  const el = document.getElementById('oracle-results');
+  if (!el) return;
+  el.style.display = 'block';
+  buildOracleRecos();
+}
+
+function buildOracleRecos() {
+  const el = document.getElementById('oracle-reco-cards');
+  if (!el) return;
+  const sigClass = {BUY:'badge-buy',HOLD:'badge-hold',SELL:'badge-sell'};
+  el.innerHTML = COMMODITIES.map(c => {
+    const delta = Math.floor(Math.random()*7)+3;
+    const newCov = Math.min(93, c.cov+delta);
+    const impact = ((delta/100)*c.spend*0.042).toFixed(2);
+    const biasWarn = c.id==='eth';
+    return `
+    <div class="tbl-row" style="grid-template-columns:1fr 70px 70px 80px 80px 1fr 130px;transition:var(--transition)"
+         onmouseenter="this.style.background='var(--teal-glow-s)'" onmouseleave="this.style.background=''">
+      <div>
+        <div style="font-weight:700;font-size:13.5px">${c.name}</div>
+        <div style="font-size:11px;color:var(--ink-faint)">${c.cat} · Priority ${c.priority}</div>
+      </div>
+      <span class="badge ${sigClass[c.signal]}">${c.signal}</span>
+      <div style="font-family:'JetBrains Mono';font-size:14px;font-weight:600;color:var(--ink-mid)">${c.cov}%</div>
+      <div style="font-family:'JetBrains Mono';font-size:16px;font-weight:800;color:var(--teal)">${newCov}%</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:var(--green)">+£${impact}M</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="prog-bar" style="flex:1;height:5px"><div class="prog-fill" style="width:${c.conf}%;background:var(--teal)"></div></div>
+          <span style="font-family:'JetBrains Mono';font-size:12px;font-weight:700;color:var(--teal)">${c.conf}%</span>
+        </div>
+        ${biasWarn?'<div style="font-size:10.5px;color:var(--amber);margin-top:4px">⚠ Anchoring bias detected</div>':''}
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-xs" onclick="alert('Accepted: ${c.name} → ${newCov}%')">Accept ✓</button>
+        <button class="btn btn-ghost btn-xs" onclick="">Override</button>
+        ${c.id==='eth'?`<span class="badge badge-amber">⚠ Bias</span>`:''}
+        <span class="badge ${c.id==='prop'?'badge-red':'badge-teal'}" style="font-size:9px">${c.id==='prop'?'IFRS9 !':'IFRS9 ✓'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMMODITY DESK
+// ══════════════════════════════════════════════════════════════════════════════
+function renderCommodity() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Commodity Desk</div>
+        <div class="page-sub">Live portfolio · Real-time pricing · AI signals · Hedge execution</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="">⬇ Export CSV</button>
+        <button class="btn btn-primary" onclick="showModule('oracle',document.getElementById('nav-oracle'))">⚡ Run AI Oracle</button>
+      </div>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">BUY Signals</div>
+        <div class="kpi-val">3</div>
+        <div class="kpi-delta up">Action required</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">HOLD Signals</div>
+        <div class="kpi-val">2</div>
+        <div class="kpi-delta neutral">Monitor closely</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--red)">
+        <div class="kpi-label">SELL Signals</div>
+        <div class="kpi-val">1</div>
+        <div class="kpi-delta down">Propylene exposure</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-val">£144M</div>
+        <div class="kpi-delta neutral">6 active commodities</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;overflow:hidden">
+      <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="card-title">Live Commodity Portfolio</div>
+          <div class="card-sub">Click any row to drill into scoring profiles</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-ghost btn-sm" onclick="">All Categories</button>
+          <button class="btn btn-ghost btn-sm" onclick="">Dairy</button>
+          <button class="btn btn-ghost btn-sm" onclick="">Petrochem</button>
+        </div>
+      </div>
+      <div class="tbl-head" style="grid-template-columns:1fr 90px 70px 72px 90px 70px 60px 60px">
+        <span>Commodity</span><span>Price</span><span>Change</span>
+        <span>Signal</span><span>Coverage</span><span>M2M £M</span>
+        <span>Priority</span><span>Trend</span>
+      </div>
+      <div id="comm-table"></div>
+    </div>
+
+    <div class="g2">
+      <div class="card" style="overflow:hidden">
+        <div class="card-header">
+          <div class="card-title">Alternative Signals</div>
+          <div class="card-sub">Latest intelligence by commodity</div>
+        </div>
+        <div id="signal-feed"></div>
+        <div style="padding:12px 18px;border-top:1px solid var(--border-s);text-align:center">
+          <button class="btn btn-ghost btn-sm" onclick="showModule('signals',document.getElementById('nav-signals'))">View All 50 Signals →</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px">Coverage vs Recommendation</div>
+          ${COMMODITIES.map(c => `
+            <div class="metric-row">
+              <div>
+                <div class="metric-name">${c.name}</div>
+                <div class="metric-sub">${c.cat}</div>
+              </div>
+              <div style="flex:1;margin:0 12px">
+                <div class="prog-bar"><div class="prog-fill" style="width:${c.cov}%;background:${c.cov>=75?'var(--green)':c.cov>=60?'var(--amber)':'var(--red)'}"></div></div>
+              </div>
+              <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:${c.cov>=75?'var(--green)':c.cov>=60?'var(--amber)':'var(--red)'}">${c.cov}%</div>
+            </div>`).join('')}
+        </div>
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px">🎯 Execution Windows</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:14px">AI-detected entry/exit opportunities</div>
+          <div class="window-card window-open" style="margin-bottom:8px">
+            <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:4px">🟢 OPEN — Ethylene EU</div>
+            <div style="font-size:12px;color:var(--ink-soft)">Entry: £1,172–£1,178 · Target: +9% coverage · M2M: <strong style="color:var(--green)">+£1.07M</strong></div>
+            <button class="btn btn-primary btn-xs" style="margin-top:8px" onclick="showModule('oracle',document.getElementById('nav-oracle'))">Execute →</button>
+          </div>
+          <div class="window-card window-closed">
+            <div style="font-size:11px;font-weight:800;color:var(--red);margin-bottom:4px">🔴 CLOSED — SMP NZ</div>
+            <div style="font-size:12px;color:var(--ink-soft)">Window closed 1h ago. Missed: <strong style="color:var(--red)">−£0.18M</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SCORING PROFILES
+// ══════════════════════════════════════════════════════════════════════════════
+function renderProfiles() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Scoring Profiles</div>
+        <div class="page-sub">5-dimensional intelligence engine · Behavioral AI · Peer benchmarking</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost">⬇ Export PDF</button>
+        <button class="btn btn-primary" onclick="showModule('oracle',document.getElementById('nav-oracle'))">⚡ AI Oracle</button>
+      </div>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Portfolio Health Score</div>
+        <div class="kpi-val" style="color:var(--green)">84</div>
+        <div style="margin-top:8px"><span class="score-grade grade-a">A · Excellent</span></div>
+        <div class="kpi-sub">Coverage + Timing + M2M + Diversification</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Hedge Efficiency Score</div>
+        <div class="kpi-val" style="color:var(--teal)">79</div>
+        <div style="margin-top:8px"><span class="score-grade grade-b">B+ · Strong</span></div>
+        <div class="kpi-sub">Instrument + Timing + Volume + Cost</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--blue)">
+        <div class="kpi-label">Decision Quality Score</div>
+        <div class="kpi-val" style="color:var(--blue)">71</div>
+        <div style="margin-top:8px"><span class="score-grade grade-b">B · Good</span></div>
+        <div class="kpi-sub">AI-override quality · 12-month rolling</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Behavioral Bias Score</div>
+        <div class="kpi-val" style="color:var(--amber)">63</div>
+        <div style="margin-top:8px"><span class="score-grade grade-c">C+ · Caution</span></div>
+        <div class="kpi-sub">Loss aversion · High anchoring</div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Portfolio Health Score — Breakdown</div>
+          <div class="card-sub">Composite of 4 weighted dimensions · Updated daily</div>
+        </div>
+        <div style="padding:20px 22px">
+          <div style="display:flex;gap:20px;margin-bottom:22px">
+            <div style="position:relative;flex-shrink:0">
+              <canvas id="phs-chart" width="130" height="130"></canvas>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none">
+                <div style="font-size:26px;font-weight:800;color:var(--ink)">84</div>
+                <div style="font-size:9px;color:var(--ink-faint);letter-spacing:.08em">HEALTH</div>
+              </div>
+            </div>
+            <div style="flex:1">
+              ${[
+                ['Coverage Adequacy','93%',93,'var(--green)'],
+                ['Timing Quality','78%',78,'var(--teal)'],
+                ['M2M Performance','88%',88,'var(--blue)'],
+                ['Diversification','82%',82,'var(--purple)']
+              ].map(([l,v,w,c])=>`
+                <div class="prog-row" style="margin-bottom:14px">
+                  <div class="prog-label">${l}</div>
+                  <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:${w}%;background:${c}"></div></div>
+                  <div class="prog-val" style="color:${c}">${v}</div>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="diff-banner">
+            <div class="diff-icon">⭐</div>
+            <div>
+              <div class="diff-title">Multi-Dimensional Scoring — No Competitor Offers This</div>
+              <div class="diff-text">o9, Aera, and Buynomics show single-metric coverage ratios. Nervure scores coverage, timing quality, instrument efficiency, behavioral bias, and peer benchmarking in one composite view.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Behavioral Bias Radar</div>
+          <div class="card-sub">Detected psychological patterns in 12-month decision history</div>
+        </div>
+        <div style="padding:20px 22px">
+          <canvas id="bias-radar" width="220" height="220" style="display:block;margin:0 auto"></canvas>
+          <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            ${[
+              ['Loss Aversion','HIGH','var(--red)'],
+              ['Anchoring','HIGH','var(--red)'],
+              ['Recency Bias','MED','var(--amber)'],
+              ['Overconfidence','LOW','var(--green)'],
+            ].map(([n,l,c])=>`
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r8)">
+                <span style="font-size:12px;color:var(--ink)">${n}</span>
+                <span style="font-size:10.5px;font-weight:800;color:${c}">${l}</span>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Peer Benchmark</div>
+          <div class="card-sub">Coverage vs. industry median · AI-recommended target</div>
+        </div>
+        <div style="padding:20px 22px" id="benchmark-rows"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Decision Quality — Regret Tracker</div>
+          <div class="card-sub">AI override decisions and their financial outcomes</div>
+        </div>
+        <div style="padding:20px 22px" id="regret-rows"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Commodity Criticality Matrix</div>
+        <div class="card-sub">Spend × Coverage Gap × Price Volatility scoring</div>
+      </div>
+      <div style="padding:20px 22px">
+        <canvas id="crit-chart" height="180"></canvas>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildProfiles() {
+  buildPHSChart();
+  buildBiasRadar();
+  buildBenchmarkRows();
+  buildRegretRows();
+  buildCritChart();
+}
+
+function buildPHSChart() {
+  const ctx = document.getElementById('phs-chart');
+  if (!ctx || phsChartBuilt) return;
+  phsChartBuilt = true;
+  activeCharts.phs = new Chart(ctx, {
+    type:'doughnut',
+    data:{
+      labels:['Coverage','Timing','M2M','Diversification'],
+      datasets:[{data:[28,21,22,13],backgroundColor:['#10B981','#0D9488','#3B82F6','#8B5CF6'],borderWidth:0}]
+    },
+    options:{plugins:{legend:{display:false}},cutout:'68%',responsive:false}
+  });
+}
+
+function buildBiasRadar() {
+  const ctx = document.getElementById('bias-radar');
+  if (!ctx || biasRadarBuilt) return;
+  biasRadarBuilt = true;
+  activeCharts.bias = new Chart(ctx, {
+    type:'radar',
+    data:{
+      labels:['Loss Aversion','Anchoring','Recency Bias','Overconfidence','FOMO','Status Quo'],
+      datasets:[
+        {label:'You',data:[82,78,54,34,61,67],backgroundColor:'rgba(13,148,136,.15)',borderColor:'var(--teal)',borderWidth:2,pointBackgroundColor:'var(--teal)',pointRadius:3},
+        {label:'Peer Avg',data:[55,50,48,58,45,52],backgroundColor:'rgba(139,92,246,.08)',borderColor:'rgba(139,92,246,.4)',borderWidth:1.5,pointRadius:2}
+      ]
+    },
+    options:{
+      responsive:false,
+      scales:{r:{beginAtZero:true,max:100,grid:{color:'rgba(0,0,0,.06)'},pointLabels:{font:{size:10,family:'Century Gothic'}},ticks:{display:false}}},
+      plugins:{legend:{position:'top',labels:{font:{size:10},boxWidth:8}}}
+    }
+  });
+}
+
+function buildBenchmarkRows() {
+  const el = document.getElementById('benchmark-rows');
+  if (!el) return;
+  el.innerHTML = PEERS.map(p=>`
+    <div class="bench-row">
+      <div class="bench-label">${p.comm}</div>
+      <div style="flex:1;position:relative">
+        <div class="bench-bar-wrap">
+          <div class="bench-bar-peer" style="width:${p.peer}%"></div>
+          <div class="bench-bar-you" style="width:${p.you}%"></div>
+          <div class="bench-marker" style="left:${p.reco}%"></div>
+        </div>
+      </div>
+      <div class="bench-you-val">${p.you}%</div>
+      <div class="bench-peer-val">Peer: ${p.peer}%</div>
+    </div>`).join('');
+}
+
+function buildRegretRows() {
+  const el = document.getElementById('regret-rows');
+  if (!el) return;
+  el.innerHTML = REGRET_DATA.map(r=>`
+    <div class="decision-row">
+      <div class="decision-icon ${r.won?'decision-win':'decision-loss'}">${r.won?'✓':'✗'}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700">${r.date} · ${r.comm}</div>
+        <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px">${r.action}</div>
+        <div style="font-size:11.5px;color:var(--ink-faint);margin-top:2px">${r.outcome}</div>
+      </div>
+      <div class="regret-amount" style="color:${r.won?'var(--green)':'var(--red)'}">${r.cost}</div>
+    </div>`).join('');
+}
+
+function buildCritChart() {
+  const ctx = document.getElementById('crit-chart');
+  if (!ctx || critChartBuilt) return;
+  critChartBuilt = true;
+  activeCharts.crit = new Chart(ctx,{
+    type:'bubble',
+    data:{datasets:COMMODITIES.map(c=>({
+      label:c.name,
+      data:[{x:c.spend,y:c.cov,r:c.priority*1.8}],
+      backgroundColor:`${c.signal==='BUY'?'rgba(16,185,129,.7)':c.signal==='HOLD'?'rgba(245,158,11,.7)':'rgba(239,68,68,.7)'}`,
+      borderColor:`${c.signal==='BUY'?'var(--green)':c.signal==='HOLD'?'var(--amber)':'var(--red)'}`,
+      borderWidth:2
+    }))},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+      scales:{
+        x:{title:{display:true,text:'Annual Spend (£M)',font:{size:11}},grid:{color:'rgba(0,0,0,.04)'}},
+        y:{title:{display:true,text:'Coverage (%)',font:{size:11}},min:0,max:100,grid:{color:'rgba(0,0,0,.04)'}}
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PRODUCT GENOME
+// ══════════════════════════════════════════════════════════════════════════════
+function renderGenome() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🧬 Product Genome</div>
+        <div class="page-sub">SKU → Ingredient → Commodity mapping · Exposure by product · Shock simulation</div>
+      </div>
+    </div>
+
+    <div class="g-main-l">
+      <div>
+        <div class="card" style="overflow:hidden;margin-bottom:14px">
+          <div class="card-header">
+            <div class="card-title">SKU Ingredient Tree</div>
+            <div class="card-sub">Click products to reveal ingredient exposure</div>
+          </div>
+          <div style="padding:16px 18px" id="genome-tree"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em">Commodity Shock Simulator</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:14px">Select a commodity, drag the shock slider — see real £ and margin-point impact per SKU</div>
+
+          <!-- Commodity selector -->
+          <div style="margin-bottom:12px" id="genome-commodity-btns"></div>
+
+          <!-- Commodity context -->
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:8px 12px;background:var(--teal-glow-s);border:1px solid var(--border);border-radius:var(--r8)">
+            <div style="flex:1">
+              <div style="font-size:11.5px;color:var(--ink-mid);line-height:1.5" id="shock-comm-desc">Drives petrochemical inputs: packaging, surfactants, rinse aid</div>
+            </div>
+            <div style="font-family:'JetBrains Mono';font-size:10.5px;color:var(--teal);font-weight:600;white-space:nowrap" id="shock-comm-spend">£28.4M annual spend</div>
+          </div>
+
+          <!-- Slider -->
+          <div style="margin-bottom:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <label style="font-size:11.5px;color:var(--ink-soft);font-weight:600">Price Shock Intensity</label>
+              <span id="shock-val-label" style="font-family:'JetBrains Mono';font-size:18px;font-weight:800;color:var(--teal)">+20%</span>
+            </div>
+            <input type="range" id="genome-shock" min="-50" max="50" value="20" oninput="updateGenomeShock(this.value)" style="width:100%"/>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink-faint);margin-top:5px">
+              <span style="color:var(--green);font-weight:600">−50% Price Crash</span>
+              <span>Neutral</span>
+              <span style="color:var(--red);font-weight:600">+50% Price Spike</span>
+            </div>
+          </div>
+
+          <!-- Total impact summary -->
+          <div style="padding:10px 14px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r8);margin-bottom:14px;font-size:12.5px;color:var(--ink-soft)">
+            Total portfolio impact: <span id="shock-total-summary" style="font-weight:700;color:var(--ink)">—</span>
+          </div>
+
+          <!-- Impact bars -->
+          <div id="genome-impact-bars"></div>
+
+          <!-- Legend -->
+          <div style="display:flex;gap:16px;margin-top:12px;font-size:11px;color:var(--ink-faint)">
+            <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:var(--red);border-radius:2px;opacity:.7"></div> Cost increases</div>
+            <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:var(--green);border-radius:2px;opacity:.7"></div> Cost decreases</div>
+            <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:var(--ink-ghost);border-radius:2px;opacity:.5"></div> Not affected</div>
+          </div>
+
+          <div class="diff-banner" style="margin-top:14px">
+            <div class="diff-icon">🧬</div>
+            <div>
+              <div class="diff-title">SKU-Level DNA Mapping — Zero Competitors</div>
+              <div class="diff-text">No CTRM or supply chain tool connects ingredient-level commodity exposure to product P&L in real time. Nervure translates Ethylene price moves directly into Dettol margin impact.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px">Portfolio-Level Exposure Summary</div>
+          ${COMMODITIES.map(c=>`
+            <div class="metric-row">
+              <div><div class="metric-name">${c.name}</div><div class="metric-sub">£${c.spend}M annual spend</div></div>
+              <span class="badge ${c.signal==='BUY'?'badge-buy':c.signal==='HOLD'?'badge-hold':'badge-sell'}">${c.signal}</span>
+              <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:${c.cov>=75?'var(--green)':c.cov>=60?'var(--amber)':'var(--red)'};min-width:36px;text-align:right">${c.cov}%</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildGenomeTree() {
+  const el = document.getElementById('genome-tree');
+  if (!el) return;
+  el.innerHTML = GENOME_PRODUCTS.map((p,pi) => `
+    <div class="gene-product" id="gene-prod-${pi}" onclick="toggleGene(${pi})">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:14.5px;font-weight:700">${p.name}</div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px">${p.sku}</div>
+        </div>
+        <span style="font-size:16px;color:var(--teal);transition:transform 0.3s ease" id="gene-arrow-${pi}">▸</span>
+      </div>
+      <div class="gene-ingredients" id="gene-ing-${pi}">
+        ${p.ingredients.map(ing=>`
+          <div class="gene-ing">
+            <div style="flex:1">
+              <div style="font-size:12.5px;font-weight:600">${ing.name}</div>
+              <div style="font-size:11px;color:var(--teal);margin-top:3px">→ ${ing.comm}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-family:'JetBrains Mono';font-size:15px;font-weight:800;color:var(--teal)">${ing.pct}%</div>
+              <span class="badge ${ing.exp==='High'?'badge-red':ing.exp==='Med'?'badge-amber':'badge-teal'}" style="font-size:9px">${ing.exp} Exp.</span>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function toggleGene(idx) {
+  const ing = document.getElementById(`gene-ing-${idx}`);
+  const arrow = document.getElementById(`gene-arrow-${idx}`);
+  const prod = document.getElementById(`gene-prod-${idx}`);
+  const open = ing.classList.toggle('open');
+  prod.classList.toggle('open', open);
+  arrow.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
+}
+
+// Genome shock state
+let activeShockComm = 'Ethylene';
+
+// Per-commodity exposure profiles: each SKU's COGS weight (%) for that commodity
+// and the SKU's annual £M spend (used to calc £ impact)
+const GENOME_COMM_PROFILES = {
+  'Ethylene': {
+    color: '#0D9488',
+    totalSpend: 28.4,
+    desc: 'Drives petrochemical inputs: packaging, surfactants, rinse aid',
+    skus: [
+      { name: 'Dettol Liquid',      cogsWeight: 44, annualSpend: 18.2, affected: true  },
+      { name: 'Harpic Toilet Bowl', cogsWeight: 28, annualSpend: 11.4, affected: true  },
+      { name: 'Finish Dishwash',    cogsWeight: 15, annualSpend: 9.8,  affected: true  },
+      { name: 'Enfamil Formula',    cogsWeight: 2,  annualSpend: 14.7, affected: false },
+    ]
+  },
+  'Palm Oil': {
+    color: '#F59E0B',
+    totalSpend: 41.2,
+    desc: 'Core fat source in nutrition and personal care formulations',
+    skus: [
+      { name: 'Enfamil Formula',    cogsWeight: 18, annualSpend: 14.7, affected: true  },
+      { name: 'Dettol Liquid',      cogsWeight: 4,  annualSpend: 18.2, affected: true  },
+      { name: 'Harpic Toilet Bowl', cogsWeight: 1,  annualSpend: 11.4, affected: false },
+      { name: 'Finish Dishwash',    cogsWeight: 1,  annualSpend: 9.8,  affected: false },
+    ]
+  },
+  'NFDM': {
+    color: '#3B82F6',
+    totalSpend: 26.0,
+    desc: 'Primary protein source — 62% of Enfamil COGS',
+    skus: [
+      { name: 'Enfamil Formula',    cogsWeight: 62, annualSpend: 14.7, affected: true  },
+      { name: 'Dettol Liquid',      cogsWeight: 0,  annualSpend: 18.2, affected: false },
+      { name: 'Harpic Toilet Bowl', cogsWeight: 0,  annualSpend: 11.4, affected: false },
+      { name: 'Finish Dishwash',    cogsWeight: 0,  annualSpend: 9.8,  affected: false },
+    ]
+  },
+  'Propylene': {
+    color: '#8B5CF6',
+    totalSpend: 19.6,
+    desc: 'Packaging (PP bottles) and surfactant feedstock',
+    skus: [
+      { name: 'Finish Dishwash',    cogsWeight: 43, annualSpend: 9.8,  affected: true  },
+      { name: 'Harpic Toilet Bowl', cogsWeight: 10, annualSpend: 11.4, affected: true  },
+      { name: 'Dettol Liquid',      cogsWeight: 12, annualSpend: 18.2, affected: true  },
+      { name: 'Enfamil Formula',    cogsWeight: 1,  annualSpend: 14.7, affected: false },
+    ]
+  }
+};
+
+function buildGenomeCommodityBtns() {
+  const el = document.getElementById('genome-commodity-btns');
+  if (!el) return;
+  const comms = Object.keys(GENOME_COMM_PROFILES);
+  el.innerHTML = `<div style="display:flex;gap:6px;flex-wrap:wrap">${comms.map((c,i)=>`
+    <button class="genome-comm-btn btn ${i===0?'btn-primary':'btn-ghost'} btn-sm"
+            data-comm="${c}"
+            onclick="selectGenomeComm(this,'${c}')">${c}</button>`).join('')}</div>`;
+  activeShockComm = comms[0];
+  updateGenomeShock(document.getElementById('genome-shock')?.value ?? 20);
+}
+
+function selectGenomeComm(btn, comm) {
+  document.querySelectorAll('.genome-comm-btn').forEach(b => {
+    b.classList.remove('btn-primary');
+    b.classList.add('btn-ghost');
+  });
+  btn.classList.add('btn-primary');
+  btn.classList.remove('btn-ghost');
+  activeShockComm = comm;
+
+  // Update the descriptor line
+  const desc = document.getElementById('shock-comm-desc');
+  if (desc) {
+    const profile = GENOME_COMM_PROFILES[comm];
+    desc.textContent = profile.desc;
+    desc.style.animation = 'none';
+    requestAnimationFrame(() => { desc.style.animation = 'fadeUp 0.25s ease both'; });
+  }
+
+  // Update total spend chip
+  const spendEl = document.getElementById('shock-comm-spend');
+  if (spendEl) {
+    const profile = GENOME_COMM_PROFILES[comm];
+    spendEl.textContent = `£${profile.totalSpend}M annual spend`;
+  }
+
+  updateGenomeShock(document.getElementById('genome-shock')?.value ?? 20);
+}
+
+function updateGenomeShock(val) {
+  const pct = parseInt(val);
+  const label = document.getElementById('shock-val-label');
+  if (label) {
+    label.textContent = `${pct > 0 ? '+' : ''}${pct}%`;
+    label.style.color = pct > 0 ? 'var(--red)' : pct < 0 ? 'var(--green)' : 'var(--ink-faint)';
+  }
+
+  // Update slider fill colour dynamically
+  const slider = document.getElementById('genome-shock');
+  if (slider) {
+    const ratio = (pct + 50) / 100; // 0..1
+    const fillColor = pct > 0 ? '#EF4444' : pct < 0 ? '#10B981' : '#8FADA9';
+    slider.style.background = `linear-gradient(to right, ${fillColor} 0%, ${fillColor} ${ratio*100}%, var(--teal-dim) ${ratio*100}%, var(--teal-dim) 100%)`;
+  }
+
+  const profile = GENOME_COMM_PROFILES[activeShockComm] || GENOME_COMM_PROFILES['Ethylene'];
+  const el = document.getElementById('genome-impact-bars');
+  const summaryEl = document.getElementById('shock-total-summary');
+  if (!el) return;
+
+  // Compute impacts: margin impact = pct * (cogsWeight/100)
+  // £ impact = annualSpend * (cogsWeight/100) * (pct/100)
+  const results = profile.skus.map(sku => {
+    const marginDelta = pct * (sku.cogsWeight / 100);   // e.g. +20% shock × 44% COGS weight = 8.8pp margin hit
+    const gbpImpact   = sku.annualSpend * (sku.cogsWeight / 100) * (pct / 100); // £M
+    return { ...sku, marginDelta, gbpImpact };
+  });
+
+  // Total £ impact
+  const totalGbp = results.reduce((a, r) => a + r.gbpImpact, 0);
+  if (summaryEl) {
+    if (pct === 0) {
+      summaryEl.textContent = '—';
+    } else {
+      const impactColor = totalGbp > 0 ? 'var(--red)' : 'var(--green)';
+      const impactSign  = totalGbp > 0 ? '−' : '+';
+      summaryEl.innerHTML = `<span style="color:${impactColor};font-weight:800;font-family:'JetBrains Mono'">${impactSign}£${Math.abs(totalGbp).toFixed(2)}M</span> <span style="color:var(--ink-soft)">COGS impact across portfolio</span>`;
+    }
+  }
+
+  const maxMargin = Math.max(...results.map(r => Math.abs(r.marginDelta)), 0.01);
+
+  el.innerHTML = results.map(r => {
+    if (pct === 0) {
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s);opacity:0.5">
+          <div style="min-width:138px">
+            <div style="font-size:12.5px;font-weight:600;color:var(--ink-soft)">${r.name}</div>
+            <div style="font-size:10.5px;color:var(--ink-faint);margin-top:1px">${r.cogsWeight}% of COGS</div>
+          </div>
+          <div style="flex:1;height:22px;background:var(--surface-alt);border-radius:6px;overflow:hidden">
+            <div style="height:100%;width:0%;border-radius:6px;transition:width .5s ease"></div>
+          </div>
+          <div style="font-family:'JetBrains Mono';font-size:12px;color:var(--ink-faint);min-width:100px;text-align:right">–</div>
+        </div>`;
+    }
+
+    const barW = Math.round((Math.abs(r.marginDelta) / maxMargin) * 100);
+    const color   = r.marginDelta > 0 ? 'var(--red)'   : 'var(--green)';
+    const hexEdge = r.marginDelta > 0 ? '#EF4444'      : '#10B981';
+    const bgColor = r.marginDelta > 0 ? 'rgba(239,68,68,.06)' : 'rgba(16,185,129,.05)';
+    const sign    = r.marginDelta > 0 ? '+' : '';
+    const gbpSign = r.gbpImpact  > 0 ? '−' : '+';
+    const affectedStyle = r.affected
+      ? `border-left:3px solid ${hexEdge};padding-left:10px;background:${bgColor};border-radius:0 6px 6px 0;margin-left:-3px;`
+      : 'opacity:0.32;';
+
+    return `
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s);${affectedStyle}transition:all .3s ease">
+        <div style="min-width:138px">
+          <div style="font-size:12.5px;font-weight:${r.affected ? '700' : '500'};color:${r.affected ? 'var(--ink)' : 'var(--ink-soft)'}">${r.name}</div>
+          <div style="font-size:10.5px;color:var(--ink-faint);margin-top:1px">${r.cogsWeight}% of COGS exposed</div>
+        </div>
+        <div style="flex:1;height:22px;background:var(--surface-alt);border-radius:6px;overflow:hidden">
+          <div style="height:100%;width:${barW}%;background:${color};border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1);opacity:${r.affected ? 0.85 : 0.2}"></div>
+        </div>
+        <div style="text-align:right;min-width:110px">
+          <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:800;color:${r.affected ? color : 'var(--ink-faint)'}">${sign}${r.marginDelta.toFixed(1)}pp</div>
+          <div style="font-size:10.5px;color:${r.affected ? color : 'var(--ink-faint)'};">${gbpSign}£${Math.abs(r.gbpImpact).toFixed(2)}M</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SCENARIOS
+// ══════════════════════════════════════════════════════════════════════════════
+function renderScenarios() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">◈ Scenario Engine</div>
+        <div class="page-sub">Generative AI stress-testing · Tail risk · Carbon CBAM overlay · Pre-emptive positioning</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost">⬇ Export Report</button>
+        <button class="btn btn-primary" onclick="initScenario()">↺ Regenerate</button>
+      </div>
+    </div>
+
+    <div class="g-main-l">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card" style="padding:18px">
+          <div style="font-size:13.5px;font-weight:700;margin-bottom:12px">Shock Type</div>
+          <div id="scenario-selector"></div>
+        </div>
+        <div class="card" style="padding:18px">
+          <div style="font-size:13.5px;font-weight:700;margin-bottom:14px">Shock Intensity</div>
+          <input type="range" id="scenario-intensity" min="10" max="100" value="55" oninput="updateScenario(this.value)"/>
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink-faint);margin-top:8px">
+            <span>Mild</span>
+            <span id="intensity-label" style="font-family:'JetBrains Mono';font-weight:800;color:var(--teal)">55%</span>
+            <span>Severe</span>
+          </div>
+        </div>
+        <div class="card" style="padding:18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="font-size:13.5px;font-weight:700">🌿 Carbon CBAM Overlay</div>
+            <span class="badge badge-purple">EU 2026</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--ink-soft);margin-bottom:12px;line-height:1.55">EU Carbon Border Adjustment Mechanism overlaid on all commodity imports.</div>
+          <div id="carbon-rows"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="g2">
+          <div class="kpi" style="--kpi-accent:var(--red)">
+            <div class="kpi-label">Portfolio P&L Impact</div>
+            <div class="kpi-val" style="color:var(--red)" id="scenario-pnl">−£11.6M</div>
+            <div class="kpi-sub">If fully unhedged</div>
+          </div>
+          <div class="kpi" style="--kpi-accent:var(--green)">
+            <div class="kpi-label">Hedged Savings</div>
+            <div class="kpi-val" style="color:var(--green)" id="scenario-savings">+£7.7M</div>
+            <div class="kpi-sub">At current coverage</div>
+          </div>
+          <div class="kpi" style="--kpi-accent:var(--teal)">
+            <div class="kpi-label">Recommended Δ Coverage</div>
+            <div class="kpi-val" style="color:var(--teal)" id="scenario-delta">+11%</div>
+            <div class="kpi-sub">AI pre-positioning</div>
+          </div>
+          <div class="kpi" style="--kpi-accent:var(--purple)">
+            <div class="kpi-label">Scenario Probability</div>
+            <div class="kpi-val" id="scenario-prob">21%</div>
+            <div class="kpi-sub">12-month horizon</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:22px">
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em">Commodity Impact Waterfall</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">P&L impact by commodity — hedged vs unhedged</div>
+          <div style="position:relative;height:200px;width:100%">
+            <canvas id="scenario-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="padding:20px;background:linear-gradient(135deg,var(--teal-glow),var(--surface));border-color:var(--border-m)">
+          <div style="font-size:14px;font-weight:700;color:var(--teal);margin-bottom:8px">🤖 AI Scenario Narrative</div>
+          <div id="scenario-narrative" style="font-size:12.5px;color:var(--ink-mid);line-height:1.7"></div>
+          <div class="diff-banner" style="margin-top:12px">
+            <div class="diff-icon">🌍</div>
+            <div>
+              <div class="diff-title">Generative Scenarios — Beyond Historical Backtesting</div>
+              <div class="diff-text">Legacy tools backtest what happened. Nervure generates novel shock scenarios using LLM reasoning — geopolitical cascades, correlated climate failures, supply concentration domino effects.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function initScenario() {
+  buildScenarioSelector();
+  buildCarbonRows();
+  updateScenario(55);
+}
+
+function buildScenarioSelector() {
+  const el = document.getElementById('scenario-selector');
+  if (!el) return;
+  el.innerHTML = SCENARIOS.map((s,i)=>`
+    <div class="scenario-opt${i===0?' selected':''}" onclick="selectScenario(this,${i})">
+      <div style="font-size:13.5px;font-weight:700;margin-bottom:2px">${s.label}</div>
+      <div style="font-size:11.5px;color:var(--ink-soft)">${s.desc}</div>
+    </div>`).join('');
+}
+
+function selectScenario(el, idx) {
+  selectedScenarioIdx = idx;
+  document.querySelectorAll('.scenario-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  updateScenario(document.getElementById('scenario-intensity').value);
+}
+
+function updateScenario(val) {
+  const pct = parseInt(val);
+  document.getElementById('intensity-label').textContent = `${pct}%`;
+  document.getElementById('scenario-pnl').textContent = `−£${(pct*0.21).toFixed(1)}M`;
+  document.getElementById('scenario-savings').textContent = `+£${(pct*0.14).toFixed(1)}M`;
+  document.getElementById('scenario-delta').textContent = `+${Math.floor(pct*0.2)}%`;
+  document.getElementById('scenario-prob').textContent = `${Math.floor(pct*0.38)}%`;
+  buildScenarioChart(pct);
+  const n = document.getElementById('scenario-narrative');
+  if (n) n.textContent = `Under a ${pct}% intensity ${SCENARIOS[selectedScenarioIdx]?.label||'geopolitical'} scenario, exposure increases significantly. Ethylene spot premium surges +${(pct*0.18).toFixed(0)}%, palm oil supply contracts by ${(pct*0.14).toFixed(0)}%. Your hedge book protects £${(pct*0.14).toFixed(1)}M of the £${(pct*0.21).toFixed(1)}M unhedged exposure. AI recommends pre-positioning +${Math.floor(pct*0.2)}% additional coverage on Ethylene and Palm Oil.`;
+}
+
+function buildScenarioChart(pct) {
+  const ctx = document.getElementById('scenario-chart');
+  if (!ctx) return;
+  if (scenarioChart) { scenarioChart.destroy(); scenarioChart = null; }
+  const labels = ['Ethylene','Palm Oil','SMP NZ','WMP EU','NFDM','Propylene'];
+  const unhedged = [pct*0.092,pct*0.31,-pct*0.04,pct*0.22,pct*0.024,-pct*0.06].map(v=>+v.toFixed(1));
+  const hedged = unhedged.map(v=>+(v*0.35).toFixed(1));
+  scenarioChart = new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Unhedged Loss',data:unhedged,backgroundColor:'rgba(239,68,68,.65)',borderRadius:5},
+      {label:'After Hedge',data:hedged,backgroundColor:'rgba(13,148,136,.7)',borderRadius:5}
+    ]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11}}},
+        y:{title:{display:true,text:'£M P&L Impact',font:{size:11}},grid:{color:'rgba(0,0,0,.04)'}}
+      }
+    }
+  });
+}
+
+function buildCarbonRows() {
+  const el = document.getElementById('carbon-rows');
+  if (!el) return;
+  const data = [
+    {comm:'Ethylene',import:'Non-EU',carbon:'€28/ton',impact:'HIGH',adj:'+2.4%'},
+    {comm:'Palm Oil',import:'MY/ID',carbon:'€14/ton',impact:'MED',adj:'+0.8%'},
+    {comm:'NFDM',import:'US',carbon:'€6/ton',impact:'LOW',adj:'+0.3%'},
+  ];
+  el.innerHTML = data.map(d=>`
+    <div class="carbon-chip">
+      <div>
+        <div style="font-size:12.5px;font-weight:700">${d.comm}</div>
+        <div style="font-size:10.5px;color:var(--ink-soft)">${d.import} imports</div>
+      </div>
+      <div style="text-align:right">
+        <div class="carbon-val" style="color:var(--purple)">${d.carbon}</div>
+        <div class="carbon-impact" style="background:${d.impact==='HIGH'?'var(--red-bg)':d.impact==='MED'?'var(--amber-bg)':'var(--green-bg)'};color:${d.impact==='HIGH'?'var(--red)':d.impact==='MED'?'var(--amber)':'var(--green)'}">
+          ${d.adj} cost adj.
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SIGNAL LAB
+// ══════════════════════════════════════════════════════════════════════════════
+function renderSignals() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🛰 Signal Lab</div>
+        <div class="page-sub">50+ alternative data streams · Real-time triggers · Counterparty risk · Policy enforcement</div>
+      </div>
+      <div class="live-pill"><div class="live-dot"></div><span class="live-txt">50 signals live</span></div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card" style="overflow:hidden">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">Live Alternative Data Signals</div>
+            <div class="card-sub">Satellite · AIS · Weather · Sentiment · Central Banks</div>
+          </div>
+          <div class="live-pill"><div class="live-dot"></div><span class="live-txt">Live</span></div>
+        </div>
+        <div id="full-signal-feed"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px">Data Source Coverage</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">50+ streams across 8 categories</div>
+          <canvas id="signal-donut" height="160" style="display:block;margin:0 auto"></canvas>
+          <div id="signal-legend" style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+        </div>
+
+        <div class="card" style="padding:20px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:4px">Counterparty Risk Monitor</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-bottom:14px">EMIR / Dodd-Frank · Auto-tested daily</div>
+          <div id="counterparty-rows"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:24px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+        <div>
+          <div style="font-size:18px;font-weight:700">Natural Language Policy Enforcer</div>
+          <div style="font-size:12px;color:var(--ink-soft);margin-top:3px">Enter hedging rules in plain English — AI enforces them as hard constraints on every recommendation</div>
+        </div>
+        <span class="badge badge-purple">CFO-Ready</span>
+      </div>
+      <div id="policy-rules"></div>
+      <div style="margin-top:14px;display:flex;gap:10px">
+        <input type="text" id="policy-input" placeholder='e.g. "Never exceed 90% coverage on any single commodity"' style="flex:1"/>
+        <button class="btn btn-primary" onclick="addPolicy()">Add Rule</button>
+      </div>
+      <div class="diff-banner" style="margin-top:14px">
+        <div class="diff-icon">📜</div>
+        <div>
+          <div class="diff-title">Zero Competitors — NL Policy Enforcement</div>
+          <div class="diff-text">Every other tool requires a technical consultant to encode hedging rules. Nervure lets your CFO type rules in plain English and enforces them automatically.</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildSignals() {
+  buildSignalFeed('full-signal-feed');
+  buildSignalDonut();
+  buildCounterpartyRows();
+  buildPolicies();
+}
+
+function buildSignalDonut() {
+  const ctx = document.getElementById('signal-donut');
+  if (!ctx || signalDonutBuilt) return;
+  signalDonutBuilt = true;
+  activeCharts.donut = new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['Satellite','AIS Shipping','Weather','Macro/CB','Sentiment','Proxy Hedge','Supply Chain','Carbon/ESG'],
+      datasets:[{data:[8,7,9,6,7,5,8,6],backgroundColor:['#0D9488','#14B8A6','#5EEAD4','#A7F3D0','#FCD34D','#8B5CF6','#3B82F6','#10B981'],borderWidth:0}]
+    },
+    options:{plugins:{legend:{display:false}},cutout:'55%',responsive:false,maintainAspectRatio:false}
+  });
+  const cats = [['Satellite','#0D9488'],['AIS Shipping','#14B8A6'],['Weather','#5EEAD4'],['Macro/CB','#A7F3D0'],['Sentiment','#FCD34D'],['Proxy Hedge','#8B5CF6'],['Supply Chain','#3B82F6'],['Carbon/ESG','#10B981']];
+  document.getElementById('signal-legend').innerHTML = cats.map(([l,c])=>`
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft)">
+      <div style="width:8px;height:8px;border-radius:50%;background:${c};flex-shrink:0"></div>${l}
+    </div>`).join('');
+}
+
+function buildCounterpartyRows() {
+  const el = document.getElementById('counterparty-rows');
+  if (!el) return;
+  el.innerHTML = COUNTERPARTIES.map(cp=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-s)">
+      <div>
+        <div style="font-size:13px;font-weight:700">${cp.name}</div>
+        <div style="font-size:11px;color:var(--ink-soft)">${cp.exposure} exposure · ${cp.rating}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'JetBrains Mono';font-size:12px;color:${cp.risk==='Low'?'var(--green)':'var(--amber)'}">CDS: ${cp.cds}bps</div>
+        <span class="badge ${cp.risk==='Low'?'badge-buy':'badge-hold'}" style="font-size:9px">${cp.risk} Risk</span>
+      </div>
+    </div>`).join('');
+}
+
+function buildPolicies() {
+  const el = document.getElementById('policy-rules');
+  if (!el) return;
+  renderPolicies();
+}
+
+function renderPolicies() {
+  const el = document.getElementById('policy-rules');
+  if (!el) return;
+  el.innerHTML = POLICIES.map((p,i)=>`
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:${p.active?'var(--teal-glow)':'rgba(0,0,0,.02)'};border:1px solid ${p.active?'rgba(13,148,136,.2)':'var(--border)'};border-radius:var(--r10);margin-bottom:8px;transition:var(--transition)"
+         onmouseenter="this.style.borderColor='var(--border-m)'" onmouseleave="this.style.borderColor='${p.active?'rgba(13,148,136,.2)':'var(--border)'}'">
+      <span style="font-size:14px">${p.active?'✅':'⬜'}</span>
+      <div style="flex:1;font-size:12.5px;color:var(--ink-mid);line-height:1.55">${p.text}</div>
+      <div style="display:flex;gap:5px;flex-shrink:0">
+        <span class="badge badge-teal" style="font-size:9px">Active</span>
+        <button class="btn btn-ghost btn-xs" onclick="removePolicy(${i})">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function addPolicy() {
+  const input = document.getElementById('policy-input');
+  if (!input.value.trim()) return;
+  POLICIES.push({text:input.value.trim(),active:true});
+  input.value = '';
+  renderPolicies();
+}
+
+function removePolicy(i) {
+  POLICIES.splice(i,1);
+  renderPolicies();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// REVENUE ENGINE
+// ══════════════════════════════════════════════════════════════════════════════
+function renderRevenue() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">💰 Revenue Engine</div>
+        <div class="page-sub">Dynamic pricing · Elasticity modeling · Promotion ROI · Price waterfall analysis</div>
+      </div>
+      <button class="btn btn-primary">⬇ Export Pricing Model</button>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Revenue Uplift (AI)</div>
+        <div class="kpi-val">+£4.2M</div>
+        <div class="kpi-delta up">↑ +12% vs baseline</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Gross Margin</div>
+        <div class="kpi-val">34.7%</div>
+        <div class="kpi-delta up">↑ +1.2pp YoY</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Price Elasticity</div>
+        <div class="kpi-val">-1.34</div>
+        <div class="kpi-delta neutral">Avg across portfolio</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--purple)">
+        <div class="kpi-label">Promo Spend ROI</div>
+        <div class="kpi-val">2.8×</div>
+        <div class="kpi-delta up">↑ +0.4× vs last quarter</div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">Dynamic Pricing Recommendations</div>
+            <div class="card-sub">AI-optimized price points by SKU segment</div>
+          </div>
+          <span class="badge badge-teal">Live Model</span>
+        </div>
+        <div style="padding:16px 20px" id="revenue-pricing-rows"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Price Waterfall Analysis</div>
+          <div class="card-sub">From list price to net realized revenue</div>
+        </div>
+        <div style="padding:16px 20px" id="revenue-waterfall"></div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Elasticity Matrix</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Cross-category price sensitivity</div>
+        <canvas id="elasticity-chart" height="200"></canvas>
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Promotion ROI Tracker</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Live promotion performance vs forecast</div>
+        <canvas id="promo-chart" height="200"></canvas>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildRevenue() {
+  // Pricing rows
+  const pricingEl = document.getElementById('revenue-pricing-rows');
+  if (pricingEl) {
+    const items = [
+      {sku:'Dettol 750ml',current:'£3.49',ai:'£3.79',uplift:'+£0.8M',conf:88,action:'Increase'},
+      {sku:'Harpic Classic',current:'£2.29',ai:'£2.49',uplift:'+£0.5M',conf:82,action:'Increase'},
+      {sku:'Enfamil 600g',current:'£22.99',ai:'£21.49',uplift:'+£1.1M',conf:74,action:'Reduce'},
+      {sku:'Finish Tabs 80pk',current:'£8.99',ai:'£9.49',uplift:'+£0.6M',conf:79,action:'Increase'},
+    ];
+    pricingEl.innerHTML = items.map(it=>`
+      <div class="metric-row">
+        <div style="flex:1">
+          <div class="metric-name">${it.sku}</div>
+          <div class="metric-sub">Current: ${it.current} → AI: <strong style="color:var(--teal)">${it.ai}</strong></div>
+        </div>
+        <div style="text-align:right;margin-right:10px">
+          <div style="font-family:'JetBrains Mono';font-size:12.5px;font-weight:700;color:var(--green)">${it.uplift}</div>
+          <div style="font-size:10.5px;color:var(--ink-faint)">${it.conf}% confidence</div>
+        </div>
+        <button class="btn btn-primary btn-xs" onclick="alert('Applied: ${it.sku} → ${it.ai}')">${it.action} →</button>
+      </div>`).join('');
+  }
+
+  // Waterfall
+  const wfEl = document.getElementById('revenue-waterfall');
+  if (wfEl) {
+    const steps = [
+      {label:'List Price',val:100,color:'var(--teal)'},
+      {label:'Trade Discounts',val:-14,color:'var(--red)'},
+      {label:'Promotional Spend',val:-8,color:'var(--red)'},
+      {label:'Logistics',val:-6,color:'var(--amber)'},
+      {label:'Net Revenue',val:72,color:'var(--green)'},
+    ];
+    wfEl.innerHTML = steps.map(s=>`
+      <div class="prog-row" style="margin-bottom:12px">
+        <div class="prog-label">${s.label}</div>
+        <div class="prog-bar" style="flex:1"><div class="prog-fill" style="width:${Math.abs(s.val)}%;background:${s.color}"></div></div>
+        <div class="prog-val" style="color:${s.color}">${s.val>0?'':''} ${Math.abs(s.val)}%</div>
+      </div>`).join('');
+  }
+
+  // Elasticity chart
+  const eCtx = document.getElementById('elasticity-chart');
+  if (eCtx) {
+    activeCharts.elasticity = new Chart(eCtx,{
+      type:'bar',
+      data:{
+        labels:['Dettol','Harpic','Enfamil','Finish','Strepsils','Gaviscon'],
+        datasets:[{label:'Price Elasticity',data:[-0.9,-1.2,-2.1,-1.4,-0.7,-0.5],backgroundColor:'rgba(13,148,136,.65)',borderRadius:5}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,indexAxis:'y',
+        plugins:{legend:{display:false}},
+        scales:{x:{title:{display:true,text:'Elasticity Coefficient'},grid:{color:'rgba(0,0,0,.04)'}},y:{grid:{display:false}}}
+      }
+    });
+  }
+
+  // Promo chart
+  const pCtx = document.getElementById('promo-chart');
+  if (pCtx) {
+    activeCharts.promo = new Chart(pCtx,{
+      type:'line',
+      data:{
+        labels:['Week 1','Week 2','Week 3','Week 4','Week 5','Week 6','Week 7','Week 8'],
+        datasets:[
+          {label:'Forecast ROI',data:[2.4,2.5,2.6,2.5,2.7,2.8,2.7,2.8],borderColor:'rgba(13,148,136,.4)',borderDash:[5,4],borderWidth:2,pointRadius:0},
+          {label:'Actual ROI',data:[2.3,2.6,2.4,2.7,2.8,3.0,2.9,2.8],borderColor:'var(--teal)',backgroundColor:'rgba(13,148,136,.08)',fill:true,borderWidth:2,pointRadius:3,tension:0.4}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+        scales:{y:{min:2.0,title:{display:true,text:'ROI Multiple'},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}
+      }
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DEMAND FORECAST
+// ══════════════════════════════════════════════════════════════════════════════
+function renderDemand() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">📊 Demand Forecast</div>
+        <div class="page-sub">13-week ML forecasting · Scenario planning · Bias correction · Consensus process</div>
+      </div>
+      <button class="btn btn-primary">⬇ Export Forecast</button>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Forecast Accuracy</div>
+        <div class="kpi-val">94.2%</div>
+        <div class="kpi-delta up">↑ +2.1% vs ML baseline</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">SKUs Covered</div>
+        <div class="kpi-val">2,847</div>
+        <div class="kpi-delta neutral">Active product portfolio</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Bias (MAPE)</div>
+        <div class="kpi-val">3.8%</div>
+        <div class="kpi-delta up">↓ −1.2% corrected</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--blue)">
+        <div class="kpi-label">Forecast Horizon</div>
+        <div class="kpi-val">13 wks</div>
+        <div class="kpi-delta neutral">Rolling weekly updates</div>
+      </div>
+    </div>
+
+    <div class="g-main" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">13-Week Demand Forecast</div>
+            <div class="card-sub">Actuals vs ML forecast vs consensus</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm">All SKUs</button>
+            <button class="btn btn-ghost btn-sm">Category</button>
+          </div>
+        </div>
+        <div style="padding:20px">
+          <canvas id="demand-chart" height="220"></canvas>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:14px">Category Performance</div>
+          ${[['Personal Care',94.8,'+1.2k units',true],['Healthcare',91.3,'-0.8k units',false],['Hygiene',96.1,'+2.4k units',true],['Nutrition',89.4,'-1.1k units',false]].map(([cat,acc,delta,up])=>`
+            <div class="metric-row">
+              <div style="flex:1"><div class="metric-name">${cat}</div></div>
+              <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:var(--teal)">${acc}%</div>
+              <span style="font-size:12px;font-weight:700;color:${up?'var(--green)':'var(--red)'};min-width:72px;text-align:right">${delta}</span>
+            </div>`).join('')}
+        </div>
+        <div class="card" style="padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:14px">Bias Correction Log</div>
+          ${[['Dettol 750ml','Overforecast','−8.2%','Corrected'],['Harpic Classic','Underforecast','+5.1%','Corrected'],['Enfamil 600g','Seasonality miss','−12.3%','Pending']].map(([sku,type,val,st])=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-s)">
+              <div style="flex:1">
+                <div style="font-size:12.5px;font-weight:600">${sku}</div>
+                <div style="font-size:11px;color:var(--ink-soft)">${type}</div>
+              </div>
+              <span style="font-family:'JetBrains Mono';font-size:12px;color:var(--red)">${val}</span>
+              <span class="badge ${st==='Corrected'?'badge-buy':'badge-amber'}" style="font-size:9px">${st}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:22px">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">Demand Signal Intelligence</div>
+      <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">External data drivers correlated with demand</div>
+      <div class="g4">
+        ${[
+          ['Weather Impact','Correlation: 0.71','Winter spike predicted +18%','🌦'],
+          ['Google Trends','Correlation: 0.63','Hygiene category up 12% WoW','📈'],
+          ['News Sentiment','Correlation: 0.48','Positive coverage → +6% demand','📰'],
+          ['Social Media','Correlation: 0.55','Viral mentions → short-term spikes','📱'],
+        ].map(([t,c,d,i])=>`
+          <div class="card" style="padding:14px 16px;border-color:var(--border-s)">
+            <div style="font-size:22px;margin-bottom:8px">${i}</div>
+            <div style="font-size:13px;font-weight:700;margin-bottom:2px">${t}</div>
+            <div style="font-size:11px;color:var(--teal);margin-bottom:4px">${c}</div>
+            <div style="font-size:11.5px;color:var(--ink-soft)">${d}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildDemand() {
+  const ctx = document.getElementById('demand-chart');
+  if (!ctx) return;
+  const weeks = ['W1','W2','W3','W4','W5','W6','W7','W8','W9','W10','W11','W12','W13'];
+  const actuals = [1820,1850,1790,1900,1880,1930,null,null,null,null,null,null,null];
+  const forecast = [1810,1860,1800,1910,1870,1920,1950,1960,1980,1970,2010,2020,2000];
+  const consensus = [null,null,null,null,null,null,1940,1970,1985,1975,2000,2015,2005];
+
+  activeCharts.demand = new Chart(ctx,{
+    type:'line',
+    data:{labels:weeks,datasets:[
+      {label:'Actuals',data:actuals,borderColor:'var(--ink)',backgroundColor:'rgba(10,26,24,.08)',fill:false,borderWidth:2.5,pointRadius:4,tension:0.3},
+      {label:'ML Forecast',data:forecast,borderColor:'var(--teal)',backgroundColor:'rgba(13,148,136,.08)',fill:true,borderWidth:2,borderDash:[5,4],pointRadius:2,tension:0.4},
+      {label:'Consensus',data:consensus,borderColor:'var(--gold)',backgroundColor:'transparent',borderWidth:2,pointRadius:3,tension:0.3}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+      scales:{
+        y:{title:{display:true,text:'Units (thousands)'},grid:{color:'rgba(0,0,0,.04)'}},
+        x:{grid:{display:false}}
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PROFITABILITY
+// ══════════════════════════════════════════════════════════════════════════════
+function renderProfitability() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">💡 Profitability Analytics</div>
+        <div class="page-sub">SKU-level margin analysis · Commodity cost passthrough · Product portfolio optimization</div>
+      </div>
+      <button class="btn btn-primary">⬇ Export Margin Report</button>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Portfolio Gross Margin</div>
+        <div class="kpi-val">34.7%</div>
+        <div class="kpi-delta up">↑ +1.2pp vs Q4</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">EBITDA</div>
+        <div class="kpi-val">£28.4M</div>
+        <div class="kpi-delta up">↑ +8.3% YoY</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Commodity COGS %</div>
+        <div class="kpi-val">38.2%</div>
+        <div class="kpi-delta down">↑ +2.1pp risk</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--red)">
+        <div class="kpi-label">Margin-at-Risk SKUs</div>
+        <div class="kpi-val">127</div>
+        <div class="kpi-delta down">Requires repricing</div>
+      </div>
+    </div>
+
+    <div class="g-main" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header" style="display:flex;justify-content:space-between">
+          <div>
+            <div class="card-title">SKU Margin Waterfall</div>
+            <div class="card-sub">Top 10 SKUs by margin contribution</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm">Sort by Margin</button>
+            <button class="btn btn-ghost btn-sm">Sort by Risk</button>
+          </div>
+        </div>
+        <div class="tbl-head" style="grid-template-columns:1fr 70px 70px 80px 80px 70px">
+          <span>SKU</span><span>Revenue</span><span>COGS</span><span>Gross Margin</span><span>Comm. Risk</span><span>Action</span>
+        </div>
+        <div id="profitability-table"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:14px">Commodity Cost Passthrough</div>
+          <canvas id="passthrough-chart" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Portfolio Optimization Engine</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">AI recommendations for margin improvement</div>
+        ${[
+          ['Discontinue Enfamil 400g','Low margin + high commodity risk → discontinue','HIGH','-£2.1M cost avoidance'],
+          ['Reprice Dettol 750ml','Elasticity supports +8.6% price → margin +1.2pp','MED','+£0.8M uplift'],
+          ['Reformulate Harpic Pro','Reduce Ethylene content by 12% → same efficacy','LOW','+£0.4M COGS saving'],
+        ].map(([t,d,p,i])=>`
+          <div style="padding:12px 14px;border:1px solid var(--border);border-radius:var(--r10);margin-bottom:8px;transition:var(--transition)"
+               onmouseenter="this.style.borderColor='var(--border-m)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px">
+              <div style="font-size:13px;font-weight:700">${t}</div>
+              <span class="badge ${p==='HIGH'?'badge-red':p==='MED'?'badge-amber':'badge-teal'}" style="font-size:9px">${p}</span>
+            </div>
+            <div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px">${d}</div>
+            <div style="font-family:'JetBrains Mono';font-size:12px;font-weight:700;color:var(--green)">${i}</div>
+          </div>`).join('')}
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Margin Bridge Analysis</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Q4 2025 → Q1 2026 margin drivers</div>
+        <canvas id="margin-bridge" height="220"></canvas>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildProfitability() {
+  const tblEl = document.getElementById('profitability-table');
+  if (tblEl) {
+    const skus = [
+      {n:'Dettol Liquid 750ml',rev:'£18.2M',cogs:'£10.8M',gm:'40.7%',risk:'Med',gmv:40.7},
+      {n:'Enfamil Formula 600g',rev:'£14.7M',cogs:'£10.1M',gm:'31.3%',risk:'High',gmv:31.3},
+      {n:'Harpic Classic 750ml',rev:'£11.4M',cogs:'£6.3M',gm:'44.7%',risk:'Low',gmv:44.7},
+      {n:'Finish Tabs 80pk',rev:'£9.8M',cogs:'£5.8M',gm:'40.8%',risk:'Med',gmv:40.8},
+    ];
+    tblEl.innerHTML = skus.map(s=>`
+      <div class="tbl-row" style="grid-template-columns:1fr 70px 70px 80px 80px 70px">
+        <div style="font-size:13px;font-weight:600">${s.n}</div>
+        <div style="font-family:'JetBrains Mono';font-size:12.5px">${s.rev}</div>
+        <div style="font-family:'JetBrains Mono';font-size:12.5px">${s.cogs}</div>
+        <div>
+          <span style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:${s.gmv>=40?'var(--green)':s.gmv>=35?'var(--amber)':'var(--red)'}">${s.gm}</span>
+        </div>
+        <span class="badge ${s.risk==='High'?'badge-red':s.risk==='Med'?'badge-amber':'badge-buy'}" style="font-size:9px">${s.risk}</span>
+        <button class="btn btn-ghost btn-xs" onclick="showModule('oracle',document.getElementById('nav-oracle'))">Optimize</button>
+      </div>`).join('');
+  }
+
+  const ptCtx = document.getElementById('passthrough-chart');
+  if (ptCtx) {
+    activeCharts.passthrough = new Chart(ptCtx,{
+      type:'line',
+      data:{
+        labels:['Jan','Feb','Mar','Apr','May','Jun'],
+        datasets:[
+          {label:'Commodity Cost',data:[38,39,41,43,42,40],borderColor:'var(--red)',backgroundColor:'rgba(239,68,68,.08)',fill:true,borderWidth:2,tension:0.4},
+          {label:'Price Realization',data:[34,35,36,37,36,35],borderColor:'var(--teal)',backgroundColor:'rgba(13,148,136,.08)',fill:true,borderWidth:2,tension:0.4}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+        scales:{y:{title:{display:true,text:'% of Revenue'},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}
+      }
+    });
+  }
+
+  const mbCtx = document.getElementById('margin-bridge');
+  if (mbCtx) {
+    activeCharts.bridge = new Chart(mbCtx,{
+      type:'bar',
+      data:{
+        labels:['Q4 GM','Volume','Price','Mix','Commodity','SG&A','Q1 GM'],
+        datasets:[{
+          data:[32.4,1.8,2.3,-0.4,-2.1,0.7,34.7],
+          backgroundColor:['rgba(13,148,136,.7)','rgba(16,185,129,.7)','rgba(16,185,129,.7)','rgba(239,68,68,.7)','rgba(239,68,68,.7)','rgba(16,185,129,.7)','rgba(13,148,136,.9)'],
+          borderRadius:5
+        }]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{y:{beginAtZero:false,min:28,title:{display:true,text:'Gross Margin %'},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}
+      }
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SUPPLY CHAIN
+// ══════════════════════════════════════════════════════════════════════════════
+function renderSupply() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">🚛 Supply Chain Command</div>
+        <div class="page-sub">Fleet optimization · Route intelligence · Inventory management · Supplier risk</div>
+      </div>
+      <button class="btn btn-primary">⬇ Export Operations Report</button>
+    </div>
+
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Fleet Utilization</div>
+        <div class="kpi-val">87.3%</div>
+        <div class="kpi-delta up">↑ +4.1% vs last month</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Fuel Savings (Mo)</div>
+        <div class="kpi-val">£320K</div>
+        <div class="kpi-delta up">2,450 km/day saved</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Supplier Risk Score</div>
+        <div class="kpi-val">72/100</div>
+        <div class="kpi-delta down">4 suppliers at-risk</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--blue)">
+        <div class="kpi-label">Inventory Turns</div>
+        <div class="kpi-val">8.4×</div>
+        <div class="kpi-delta up">↑ +1.2× vs industry</div>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Supply Network Health</div>
+          <div class="card-sub">Tier 1 and 2 supplier risk monitoring</div>
+        </div>
+        <div style="padding:16px 20px" id="supply-nodes"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Inventory Optimization</div>
+          <div class="card-sub">AI-recommended safety stock levels</div>
+        </div>
+        <div style="padding:16px 20px">
+          <canvas id="inventory-chart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Route Optimization Engine</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">342 active trucks · AI-optimized daily</div>
+        ${[['London → Manchester','A-Route','142km','2h 20m','98%'],['Birmingham → Leeds','B-Route','144km','2h 35m','91%'],['Bristol → Cardiff','C-Route','48km','52m','99%']].map(([r,t,d,time,u])=>`
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${r}</div>
+              <div style="font-size:11px;color:var(--ink-soft)">${t} · ${d} · ${time}</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:${parseInt(u)>=95?'var(--green)':parseInt(u)>=85?'var(--amber)':'var(--red)'}">${u}</div>
+              <div style="font-size:10px;color:var(--ink-faint)">utilization</div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Disruption Risk Monitor</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Real-time supply chain risk signals</div>
+        ${[
+          ['Red Sea Routing','Container diversions +34%','HIGH','Rerouting active'],
+          ['BASF Cracker Maintenance','Q2 ethylene supply −5%','MED','Inventory buffer built'],
+          ['Fonterra Crop Revision','WMP supply adjustment','MED','Monitoring'],
+          ['UK Port Congestion','Dover backlog −18%','LOW','Resolved'],
+        ].map(([r,d,p,s])=>`
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <span class="badge ${p==='HIGH'?'badge-red':p==='MED'?'badge-amber':'badge-buy'}" style="font-size:9px;margin-top:2px">${p}</span>
+            <div style="flex:1">
+              <div style="font-size:12.5px;font-weight:600">${r}</div>
+              <div style="font-size:11.5px;color:var(--ink-soft)">${d}</div>
+            </div>
+            <span class="badge badge-teal" style="font-size:9px">${s}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildSupply() {
+  const el = document.getElementById('supply-nodes');
+  if (el) {
+    const suppliers = [
+      {name:'BASF SE',cat:'Petrochem',risk:22,status:'Normal',spend:'£48M'},
+      {name:'Fonterra',cat:'Dairy',risk:45,status:'Watch',spend:'£38M'},
+      {name:'Wilmar Int.',cat:'Palm Oil',risk:38,status:'Watch',spend:'£41M'},
+      {name:'INEOS Group',cat:'Petrochem',risk:18,status:'Normal',spend:'£22M'},
+    ];
+    el.innerHTML = suppliers.map(s=>`
+      <div class="supply-node" style="margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:13px;font-weight:700">${s.name}</div>
+            <div style="font-size:11px;color:var(--ink-soft)">${s.cat} · ${s.spend} spend</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'JetBrains Mono';font-size:13px;font-weight:700;color:${s.risk<30?'var(--green)':s.risk<50?'var(--amber)':'var(--red)'}">Risk: ${s.risk}/100</div>
+            <span class="badge ${s.status==='Normal'?'badge-buy':'badge-amber'}" style="font-size:9px">${s.status}</span>
+          </div>
+        </div>
+        <div style="margin-top:8px"><div class="prog-bar"><div class="prog-fill" style="width:${s.risk}%;background:${s.risk<30?'var(--green)':s.risk<50?'var(--amber)':'var(--red)'}"></div></div></div>
+      </div>`).join('');
+  }
+
+  const invCtx = document.getElementById('inventory-chart');
+  if (invCtx) {
+    activeCharts.inventory = new Chart(invCtx,{
+      type:'bar',
+      data:{
+        labels:['Ethylene','NFDM','WMP','Palm Oil','Propylene','Chlorine'],
+        datasets:[
+          {label:'Current Stock',data:[28,45,32,18,38,55],backgroundColor:'rgba(13,148,136,.65)',borderRadius:4},
+          {label:'AI Target',data:[35,40,38,28,30,50],backgroundColor:'rgba(212,175,55,.6)',borderRadius:4}
+        ]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+        scales:{
+          y:{title:{display:true,text:'Days of Cover'},grid:{color:'rgba(0,0,0,.04)'}},
+          x:{grid:{display:false}}
+        }
+      }
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// REPORTS
+// ══════════════════════════════════════════════════════════════════════════════
+function renderReports() {
+  const reports = [
+    {icon:'📊',title:'Executive Hedge Summary',desc:'Monthly CFO-ready report on hedging performance, M2M, and AI accuracy',tag:'Monthly',action:'Generate'},
+    {icon:'📈',title:'Board Risk Report',desc:'Quarterly tail risk, scenario analysis, and portfolio health for board review',tag:'Quarterly',action:'Generate'},
+    {icon:'🌿',title:'CBAM Compliance Report',desc:'EU Carbon Border Adjustment Mechanism impact and compliance status',tag:'Regulatory',action:'Generate'},
+    {icon:'🤖',title:'AI Oracle Audit Trail',desc:'Natural language justification for every AI recommendation (IFRS 9 compliant)',tag:'Compliance',action:'Download'},
+    {icon:'⚖️',title:'EMIR Trade Report',desc:'Regulatory trade reporting for derivatives — auto-submitted to TR',tag:'Regulatory',action:'Auto-Submit'},
+    {icon:'📉',title:'Behavioral Bias Report',desc:'12-month analysis of human override decisions and their financial impact',tag:'Analytics',action:'Generate'},
+  ];
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">📑 Reports & Analytics</div>
+        <div class="page-sub">Executive reporting · Compliance documents · AI audit trails · Board-ready outputs</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost">Schedule Reports</button>
+        <button class="btn btn-primary" onclick="alert('Generating all reports…')">⬇ Batch Export</button>
+      </div>
+    </div>
+
+    <div class="g3" style="margin-bottom:16px">
+      ${reports.map(r=>`
+        <div class="report-card" onclick="alert('Generating: ${r.title}…')">
+          <div class="report-icon">${r.icon}</div>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <div style="font-size:14px;font-weight:700;flex:1">${r.title}</div>
+            <span class="badge badge-teal" style="font-size:9px">${r.tag}</span>
+          </div>
+          <div style="font-size:12px;color:var(--ink-soft);line-height:1.55;margin-bottom:12px">${r.desc}</div>
+          <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();alert('${r.action}: ${r.title}')">${r.action}</button>
+        </div>`).join('')}
+    </div>
+
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Report Schedule</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Automated delivery to stakeholders</div>
+        ${[
+          ['Exec Hedge Summary','CFO, Treasurer','Last Monday of month','Email + Slack'],
+          ['Board Risk Report','Board Members','Quarterly, Day before Q-review','PDF to Sharepoint'],
+          ['EMIR Trade Report','Regulatory team','Daily 18:00 UTC','Auto-submitted'],
+          ['AI Oracle Audit','Compliance','On each Oracle run','Stored to audit log'],
+        ].map(([r,recv,freq,m])=>`
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${r}</div>
+              <div style="font-size:11px;color:var(--ink-soft)">→ ${recv}</div>
+              <div style="font-size:11px;color:var(--ink-faint)">${freq}</div>
+            </div>
+            <span class="badge badge-teal" style="font-size:9px">${m}</span>
+          </div>`).join('')}
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Recent Exports</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:16px">Last 5 generated reports</div>
+        ${[
+          ['Hedge Summary Jan 2026','PDF · 2.1MB','2 Feb 2026'],
+          ['Board Risk Q4 2025','PDF · 4.8MB','15 Jan 2026'],
+          ['AI Audit Trail Feb','CSV · 0.8MB','Today 09:14'],
+          ['EMIR Daily Report','XML · 0.3MB','Today 18:00'],
+          ['CBAM Q1 Impact','PDF · 1.4MB','28 Jan 2026'],
+        ].map(([n,sz,d])=>`
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <span style="font-size:18px">📄</span>
+            <div style="flex:1">
+              <div style="font-size:12.5px;font-weight:600">${n}</div>
+              <div style="font-size:11px;color:var(--ink-faint)">${sz} · ${d}</div>
+            </div>
+            <button class="btn btn-ghost btn-xs" onclick="alert('Downloading: ${n}')">⬇</button>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════════════════════════════════════
+function renderSettings() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">⚙ Settings & Configuration</div>
+        <div class="page-sub">Platform preferences · Integrations · User management · API configuration</div>
+      </div>
+      <button class="btn btn-primary" onclick="alert('Settings saved!')">Save Changes</button>
+    </div>
+
+    <div class="g2" style="margin-bottom:16px">
+      <!-- Profile & Preferences -->
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px">User Profile</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+          <div class="avatar" style="width:52px;height:52px;font-size:18px">S</div>
+          <div>
+            <div style="font-size:15px;font-weight:700">Sandip Gupta</div>
+            <div style="font-size:12px;color:var(--ink-soft)">Head of Commodity Risk · RB Group</div>
+            <div style="font-size:11px;color:var(--ink-faint)">sandip.gupta@rb.com</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          ${[
+            ['Display Name','Sandip Gupta'],
+            ['Email','sandip.gupta@rb.com'],
+            ['Currency','GBP (£)'],
+            ['Time Zone','Europe/London (GMT)'],
+          ].map(([l,v])=>`
+            <div>
+              <label style="font-size:11px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:5px">${l}</label>
+              <input type="text" value="${v}" style="font-size:13px"/>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Notification Preferences -->
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px">Notification Preferences</div>
+        ${[
+          ['AI Oracle Recommendations','Get notified when new AI recommendations are ready',true],
+          ['Signal Alerts (High Impact)','Receive high-impact alternative data signals immediately',true],
+          ['Execution Window Opens','Alert when optimal hedge timing windows are detected',true],
+          ['IFRS 9 Test Results','Notify on hedge effectiveness test completions',false],
+          ['Behavioral Bias Flags','Alert when AI detects decision bias patterns',true],
+          ['Weekly Portfolio Summary','Automated weekly digest via email',false],
+        ].map(([t,d,on])=>`
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border-s)" onclick="this.querySelector('.toggle').classList.toggle('on')">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${t}</div>
+              <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px">${d}</div>
+            </div>
+            <div class="toggle${on?' on':''}"></div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Integrations -->
+    <div class="card" style="padding:22px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div>
+          <div style="font-size:15px;font-weight:700">Data Integrations</div>
+          <div style="font-size:12px;color:var(--ink-soft)">Connect to exchanges, ERPs, and data providers</div>
+        </div>
+        <button class="btn btn-ghost btn-sm">+ Add Integration</button>
+      </div>
+      <div class="g2">
+        ${[
+          ['🏛','CME Group','Futures pricing · Enabled','Connected','var(--green)'],
+          ['🏛','ICE Futures','Energy & soft commodities · Enabled','Connected','var(--green)'],
+          ['📊','Bloomberg Terminal','Market data feed','Connected','var(--green)'],
+          ['🏭','SAP S/4HANA','ERP & commodity contracts','Connected','var(--green)'],
+          ['🛰','Satellogic','Satellite crop intelligence','Connected','var(--green)'],
+          ['🚢','MarineTraffic AIS','Shipping tracking','Connected','var(--green)'],
+          ['☁️','Weather Source','Weather data feed','Connected','var(--green)'],
+          ['📋','DTCC Trade Rep.','EMIR reporting','Connected','var(--green)'],
+          ['💳','Refinitiv Eikon','News & sentiment','Pending','var(--amber)'],
+          ['🔗','Naphtha OTC Desk','Proxy hedge execution','Setup required','var(--red)'],
+        ].map(([icon,name,desc,status,color])=>`
+          <div class="integration-item">
+            <div class="integration-icon" style="background:var(--surface-alt);border:1px solid var(--border)">${icon}</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700">${name}</div>
+              <div style="font-size:11.5px;color:var(--ink-soft)">${desc}</div>
+            </div>
+            <span class="badge" style="background:${color}15;color:${color};border:1px solid ${color}40;font-size:9px">${status}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Security & Compliance -->
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px">Security Settings</div>
+        ${[
+          ['Two-Factor Authentication','Enable 2FA for account security',true],
+          ['Session Timeout','Auto-logout after 30 minutes of inactivity',true],
+          ['API Access Logging','Log all API calls for compliance audit',true],
+          ['SSO Integration','Azure AD single sign-on',true],
+        ].map(([t,d,on])=>`
+          <div style="display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border-s)" onclick="this.querySelector('.toggle').classList.toggle('on')">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${t}</div>
+              <div style="font-size:11.5px;color:var(--ink-soft)">${d}</div>
+            </div>
+            <div class="toggle${on?' on':''}"></div>
+          </div>`).join('')}
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px">Compliance Framework</div>
+        ${[
+          ['IFRS 9 Hedge Accounting','Enabled','var(--green)','Prospective tests auto-run daily'],
+          ['EMIR Reporting','Active','var(--green)','Auto-submitted to DTCC daily'],
+          ['EU CBAM Overlay','Active','var(--green)','Carbon premium applied from Jan 2026'],
+          ['Dodd-Frank Compliance','Enabled','var(--green)','US counterparty reporting active'],
+          ['Basel III Framework','Monitoring','var(--amber)','Counterparty credit risk tracked'],
+        ].map(([f,s,c,d])=>`
+          <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">${f}</div>
+              <div style="font-size:11.5px;color:var(--ink-soft)">${d}</div>
+            </div>
+            <span class="badge" style="background:${c}15;color:${c};border:1px solid ${c}40;font-size:9px">${s}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildSidebar();
+  showModule('dashboard', document.getElementById('nav-dashboard'));
+});
+</script>
+</body>
+</html>

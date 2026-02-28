@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NERVURE — CPG Financial Operating System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -69,6 +69,13 @@
   --topbar-h: 60px;
   --transition: 0.18s cubic-bezier(0.4,0,0.2,1);
   --transition-slow: 0.35s cubic-bezier(0.4,0,0.2,1);
+
+  /* ── PRICEOS ACCENT — only used on pricing actions ── */
+  --pink: #ff2d78;
+  --pink-l: #ff6b9d;
+  --pink-bg: rgba(255,45,120,0.08);
+  --pink-glow: rgba(255,45,120,0.15);
+  --pink-border: rgba(255,45,120,0.25);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -713,6 +720,219 @@ body {
 .window-open { background: rgba(16,185,129,.04); border-color: rgba(16,185,129,.22); }
 .window-closed { background: rgba(239,68,68,.03); border-color: rgba(239,68,68,.14); }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   PRICEOS MODULE STYLES — pink accent ONLY for pricing money-making actions
+   ══════════════════════════════════════════════════════════════════════════════ */
+.btn-pink {
+  background: linear-gradient(135deg, var(--pink) 0%, var(--pink-l) 100%);
+  color: #fff; border: none;
+  box-shadow: 0 2px 12px rgba(255,45,120,.32);
+}
+.btn-pink:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,45,120,.40); }
+.dm-serif { font-family: 'DM Serif Display', Georgia, serif; letter-spacing: -0.03em; }
+
+/* EU AI Act topbar badge */
+.eu-ai-badge {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 11px;
+  background: rgba(59,130,246,.07); border: 1px solid rgba(59,130,246,.22);
+  border-radius: var(--r8); font-size: 11px; font-weight: 700;
+  color: var(--blue); white-space: nowrap;
+}
+#eu-ai-badge-wrap { display: none; }
+#eu-ai-badge-wrap.visible { display: flex; }
+
+/* Sidebar sub-item */
+.nav-sub-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 12px 7px 36px; margin: 1px 10px;
+  border-radius: var(--r10); cursor: pointer;
+  transition: var(--transition); color: rgba(255,255,255,.3);
+  font-size: 12.5px; font-weight: 500;
+  position: relative; border: 1px solid transparent;
+}
+.nav-sub-item:hover { background: rgba(255,255,255,.04); color: rgba(255,255,255,.55); }
+.nav-sub-item.active { background: rgba(255,45,120,.12); color: #ff6b9d; border-color: rgba(255,45,120,.22); }
+.nav-sub-item.active::before {
+  content: ''; position: absolute; left: -10px; top: 50%;
+  transform: translateY(-50%); width: 3px; height: 14px;
+  background: var(--pink); border-radius: 0 2px 2px 0;
+}
+.pricing-os-badge {
+  font-size: 8px; font-weight: 800; padding: 1px 5px;
+  border-radius: 4px; background: var(--pink); color: white;
+  letter-spacing: .06em; margin-left: auto;
+}
+
+/* Count-up animation */
+@keyframes countUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.count-up { animation: countUp 0.55s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* Live pulsing number */
+@keyframes liveNumPulse { 0%,100%{opacity:1} 50%{opacity:.65} }
+.live-num { animation: liveNumPulse 3.5s ease-in-out infinite; color: var(--green) !important; }
+
+/* PriceOS dashboard widget */
+.priceos-widget {
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a0d14 60%, #0d0a14 100%);
+  border: 1px solid var(--pink-border); border-radius: var(--r16);
+  padding: 22px 26px; position: relative; overflow: hidden;
+  cursor: pointer; transition: var(--transition);
+}
+.priceos-widget::before {
+  content: ''; position: absolute; top:-50px; right:-50px;
+  width:200px; height:200px;
+  background: radial-gradient(circle, rgba(255,45,120,.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+.priceos-widget:hover { border-color: var(--pink); box-shadow: 0 8px 32px rgba(255,45,120,.18); transform: translateY(-2px); }
+.priceos-widget-tag {
+  font-size: 9.5px; font-weight: 700; color: #ff6b9d;
+  letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.priceos-widget-val {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 38px; color: white; line-height: 1; letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.priceos-widget-val em { color: var(--pink-l); font-style: normal; }
+.priceos-widget-sub { font-size: 12.5px; color: rgba(255,255,255,.42); line-height: 1.55; }
+.priceos-widget-btn {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+  padding: 9px 18px; background: var(--pink); color: white;
+  border-radius: var(--r10); font-size: 12.5px; font-weight: 700;
+  font-family: 'Syne', sans-serif; border: none; cursor: pointer; transition: var(--transition);
+}
+.priceos-widget-btn:hover { opacity: .88; transform: scale(.98); }
+
+/* PriceOS tab bar */
+.pos-tab-bar {
+  display: flex; gap: 2px; padding: 4px;
+  background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: var(--r12); margin-bottom: 20px; width: fit-content;
+}
+.pos-tab {
+  padding: 8px 18px; border-radius: var(--r8);
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  cursor: pointer; transition: var(--transition);
+}
+.pos-tab.active { background: white; color: var(--ink); box-shadow: var(--shadow-xs); border: 1px solid var(--border); }
+.pos-tab.active.pink-tab { color: var(--pink); border-color: var(--pink-border); }
+.pos-tab:not(.active):hover { background: rgba(0,0,0,.03); color: var(--ink); }
+
+/* Live 3-number strip */
+.live-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+.live-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 18px 20px;
+  box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+}
+.live-card::before {
+  content: ''; position: absolute; top:0; left:0; right:0; height:2.5px;
+  background: var(--lc-color, var(--teal)); border-radius: 2px 2px 0 0;
+}
+.live-card-label {
+  font-size: 10px; font-weight: 700; color: var(--ink-faint);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.live-card-val {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 30px; font-weight: 400; line-height: 1; letter-spacing: -0.02em;
+}
+.live-card-delta { font-size: 12px; font-weight: 700; margin-top: 6px; }
+
+/* PriceOS copilot full-bleed */
+.pos-copilot-panel {
+  background: white; border: 1px solid var(--border);
+  border-radius: var(--r16); box-shadow: var(--shadow-m);
+  display: flex; flex-direction: column; height: 540px; overflow: hidden;
+}
+.pos-copilot-header {
+  padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,.06);
+  background: linear-gradient(90deg, #0d0d0d 0%, #1a0d14 100%);
+  display: flex; align-items: center; gap: 10px;
+}
+.pos-copilot-title { font-size: 14px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px; }
+.pos-chat-msgs {
+  flex: 1; overflow-y: auto; padding: 20px 22px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.pos-msg { display: flex; gap: 10px; align-items: flex-start; }
+.pos-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; flex-shrink: 0;
+}
+.pos-avatar-ai { background: var(--pink); color: white; }
+.pos-avatar-user { background: var(--surface-alt); border: 1px solid var(--border); color: var(--ink-soft); }
+.pos-bubble {
+  background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: 12px; border-top-left-radius: 4px;
+  padding: 10px 14px; font-size: 13px; color: var(--ink-soft);
+  line-height: 1.6; max-width: 86%;
+}
+.pos-bubble.user {
+  background: rgba(255,45,120,.05); border-color: var(--pink-border);
+  border-top-left-radius: 12px; border-top-right-radius: 4px;
+  color: var(--ink); margin-left: auto;
+}
+.pos-bubble strong { color: var(--ink); }
+.pos-bubble .p-green { color: var(--green); font-weight: 700; }
+.pos-bubble .p-pink { color: var(--pink); font-weight: 700; }
+.pos-input-row {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; background: white;
+}
+.pos-input {
+  flex: 1; background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: var(--r10); padding: 10px 14px; font-size: 13px;
+  font-family: 'Syne', sans-serif; color: var(--ink); outline: none; transition: var(--transition);
+}
+.pos-input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255,45,120,.10); }
+.pos-send-btn {
+  background: var(--pink); color: white; border: none; border-radius: var(--r10);
+  padding: 10px 18px; font-size: 13px; font-weight: 700;
+  font-family: 'Syne', sans-serif; cursor: pointer; transition: var(--transition); flex-shrink: 0;
+}
+.pos-send-btn:hover { opacity:.88; }
+.pos-send-btn:disabled { opacity:.4; cursor:not-allowed; }
+.pos-typing { display:flex; gap:4px; align-items:center; padding:3px 0; }
+.pos-typing-dot {
+  width:6px; height:6px; border-radius:50%; background:var(--ink-ghost);
+  animation: posTyping 1.2s ease-in-out infinite;
+}
+.pos-typing-dot:nth-child(2){animation-delay:.2s}
+.pos-typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes posTyping{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+
+/* Autopilot toggle */
+.pos-toggle {
+  width: 42px; height: 24px; border-radius: 12px;
+  position: relative; cursor: pointer; transition: background .2s; background: #e0e0e0;
+}
+.pos-toggle.on { background: var(--pink); }
+.pos-toggle::after {
+  content:''; position:absolute; width:20px; height:20px; border-radius:50%;
+  background:white; top:2px; left:2px; transition:transform .2s; box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.pos-toggle.on::after { transform:translateX(18px); }
+
+/* Scenario rows */
+.pos-sc-row {
+  display: grid;
+  grid-template-columns: 32px 1fr 72px 100px 80px 80px 110px;
+  align-items: center; padding: 13px 20px;
+  border-bottom: 1px solid var(--border-s);
+  cursor: pointer; transition: var(--transition); font-size: 13px;
+}
+.pos-sc-row:hover { background: var(--teal-glow-s); }
+.pos-sc-row:last-child { border-bottom: none; }
+.pos-rank { width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800; }
+.pos-rank-1 { background:var(--pink);color:white; }
+.pos-rank-n { background:var(--surface-alt);color:var(--ink-soft);border:1px solid var(--border); }
+
 /* ── DIFF BANNERS ─────────────────────────────────────────────────────────── */
 .diff-banner {
   background: linear-gradient(90deg, var(--teal-glow), var(--teal-glow-s));
@@ -1033,6 +1253,12 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
         <span class="nav-icon">💰</span>
         <span class="nav-label">Revenue Engine</span>
       </div>
+      <!-- Pricing OS: PriceOS sub-module under Revenue Engine -->
+      <div class="nav-sub-item" id="nav-pricing-os" onclick="showModule('pricing-os',this)">
+        <span class="nav-icon" style="font-size:13px">🎯</span>
+        <span>Pricing OS</span>
+        <span class="pricing-os-badge">LIVE</span>
+      </div>
       <div class="nav-item" id="nav-demand" onclick="showModule('demand',this)">
         <span class="nav-icon">📊</span>
         <span class="nav-label">Demand Forecast</span>
@@ -1040,6 +1266,16 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
       <div class="nav-item" id="nav-profitability" onclick="showModule('profitability',this)">
         <span class="nav-icon">💡</span>
         <span class="nav-label">Profitability</span>
+      </div>
+
+      <div class="sb-section-label" style="display:flex;align-items:center;gap:6px">
+        Integration
+        <span style="background:var(--teal);color:white;font-size:8px;padding:1px 6px;border-radius:3px;letter-spacing:.04em;font-weight:800">NEW</span>
+      </div>
+      <div class="nav-item" id="nav-marginbridge" onclick="showModule('marginbridge',this)">
+        <span class="nav-icon">🔗</span>
+        <span class="nav-label">Margin Bridge</span>
+        <span class="nav-badge amber">!</span>
       </div>
 
       <div class="sb-section-label">Operations</div>
@@ -1095,6 +1331,12 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
       </div>
 
       <div class="tb-right">
+      <!-- EU AI Act badge: only visible on Pricing OS module -->
+      <div id="eu-ai-badge-wrap">
+        <div class="eu-ai-badge">
+          <span class="shield">⚖️</span> EU AI Act ✓ Guardrails Active
+        </div>
+      </div>
         <div class="live-pill">
           <div class="live-dot"></div>
           <span class="live-txt">50 Signals</span>
@@ -1287,12 +1529,24 @@ function showModule(module, navEl) {
     dashboard:'Dashboard',oracle:'AI Oracle',commodity:'Commodity Desk',
     profiles:'Scoring Profiles',genome:'Product Genome',scenarios:'Scenario Engine',
     signals:'Signal Lab',revenue:'Revenue Engine',demand:'Demand Forecast',
-    profitability:'Profitability',supply:'Supply Chain',reports:'Reports',settings:'Settings'
+    profitability:'Profitability',supply:'Supply Chain',reports:'Reports',settings:'Settings',
+    marginbridge:'Margin Bridge',
+    'pricing-os':'Revenue Engine › Pricing OS'
   };
   document.getElementById('topbar-breadcrumb').innerHTML =
-    `<span style="color:var(--ink-faint)">NERVURE</span>
-     <span style="color:var(--ink-ghost)">›</span>
-     <strong>${labels[module]||module}</strong>`;
+    module === 'pricing-os'
+      ? `<span style="color:var(--ink-faint)">NERVURE</span>
+         <span style="color:var(--ink-ghost)">›</span>
+         <span style="color:var(--ink-soft)">Revenue Engine</span>
+         <span style="color:var(--ink-ghost)">›</span>
+         <strong style="color:var(--pink)">Pricing OS</strong>`
+      : `<span style="color:var(--ink-faint)">NERVURE</span>
+         <span style="color:var(--ink-ghost)">›</span>
+         <strong>${labels[module]||module}</strong>`;
+
+  // Toggle EU AI Act badge
+  const euBadge = document.getElementById('eu-ai-badge-wrap');
+  if (euBadge) euBadge.classList.toggle('visible', module === 'pricing-os');
 
   const content = document.getElementById('content');
   content.style.opacity = '0';
@@ -1335,6 +1589,8 @@ function getModuleHTML(m) {
     case 'supply': return renderSupply();
     case 'reports': return renderReports();
     case 'settings': return renderSettings();
+    case 'marginbridge': return renderMarginBridge();
+    case 'pricing-os': return renderPricingOS();
     default: return '<div>Module not found</div>';
   }
 }
@@ -1352,7 +1608,8 @@ function afterModuleRender(m) {
     case 'demand': buildDemand(); break;
     case 'profitability': buildProfitability(); break;
     case 'supply': buildSupply(); break;
-    case 'reports': break;
+    case 'pricing-os': buildPricingOS(); break;
+    case 'marginbridge': buildMarginBridge(); break;
     case 'settings': break;
   }
 }
@@ -1554,6 +1811,18 @@ function renderDashboard() {
       </div>
     </div>
 
+    <!-- Margin Bridge Alert Banner -->
+    <div style="background:linear-gradient(90deg,rgba(245,158,11,.05),rgba(13,148,136,.05));border:1px solid rgba(245,158,11,.22);border-radius:var(--r12);padding:13px 18px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:var(--transition)"
+         onmouseenter="this.style.borderColor='rgba(13,148,136,.35)'" onmouseleave="this.style.borderColor='rgba(245,158,11,.22)'"
+         onclick="showModule('marginbridge',document.getElementById('nav-marginbridge'))">
+      <div style="width:34px;height:34px;border-radius:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">🔗</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:1px">Margin Bridge Alert — <span style="color:var(--amber)">Ethylene +18.2% spike detected</span></div>
+        <div style="font-size:11px;color:var(--ink-soft)">PriceOS elasticity confirms max <strong style="color:var(--teal)">+4.2% safe pass-through</strong> before volume cliff · Residual gap: <strong style="color:var(--red)">£1.8M</strong> to absorb · 3 SKUs require action today</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" style="flex-shrink:0" onclick="event.stopPropagation();showModule('marginbridge',document.getElementById('nav-marginbridge'))">View Analysis →</button>
+    </div>
+
     <!-- KPI Row -->
     <div class="g5 animate-in-delay-1" style="margin-bottom:16px">
       <div class="kpi" style="--kpi-accent:var(--green)">
@@ -1586,16 +1855,31 @@ function renderDashboard() {
     <!-- Main Grid -->
     <div class="g-main animate-in-delay-2">
       <!-- Commodity Table -->
-      <div class="card">
-        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div class="card-title">Live Commodity Portfolio</div>
-            <div class="card-sub">Real-time prices · AI signals · Coverage vs recommendation</div>
+      <div>
+        <!-- PriceOS Widget — embedded recommendation -->
+        <div class="priceos-widget" style="margin-bottom:16px" onclick="showModule('pricing-os',document.getElementById('nav-pricing-os'))">
+          <div class="priceos-widget-tag">
+            <span style="display:inline-flex;align-items:center;gap:4px;width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);animation:liveNumPulse 2s ease-in-out infinite"></span>
+            Pricing OS by PriceOS — Revenue Engine Module
           </div>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-ghost btn-sm" onclick="showModule('commodity',document.getElementById('nav-commodity'))">Full View →</button>
+          <div class="priceos-widget-val count-up">+<em>£2.1M</em></div>
+          <div class="priceos-widget-sub">Projected margin this week if top 3 scenarios are applied · Dettol + Harpic + Finish · AME Region · Confidence: 91%</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-top:14px;flex-wrap:wrap">
+            <button class="priceos-widget-btn">→ Open Autopilot +£2.1M</button>
+            <div style="font-size:11.5px;color:rgba(255,255,255,.35)">1,024 scenarios run overnight · 3 pilots live · EU AI Act ✓</div>
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="card-title">Live Commodity Portfolio</div>
+              <div class="card-sub">Real-time prices · AI signals · Coverage vs recommendation</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" onclick="showModule('commodity',document.getElementById('nav-commodity'))">Full View →</button>
+            </div>
+          </div>
         <div class="tbl-head" style="grid-template-columns:1fr 80px 65px 72px 80px 60px 56px 54px">
           <span>Commodity</span><span>Price</span><span>Change</span>
           <span>Signal</span><span>Coverage</span><span>M2M £M</span>
@@ -1603,8 +1887,7 @@ function renderDashboard() {
         </div>
         <div id="comm-table"></div>
       </div>
-
-      <!-- Right Column -->
+      </div><!-- end inner left column wrapper -->
       <div style="display:flex;flex-direction:column;gap:14px">
         <!-- Signal Feed -->
         <div class="card" style="overflow:hidden">
@@ -3651,8 +3934,772 @@ function renderSettings() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// INIT
+// PRICING OS — PriceOS embedded as Revenue Engine sub-module
 // ══════════════════════════════════════════════════════════════════════════════
+let posView = 'dashboard';
+let posCopilotHistory = [];
+let posChartInst = null;
+
+function renderPricingOS() {
+  return `
+  <div class="animate-in" id="pos-root">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <div class="page-title dm-serif" style="display:flex;align-items:center;gap:12px">
+          Pricing OS
+          <span style="font-family:'Syne',sans-serif;font-size:11px;font-weight:800;background:var(--pink);color:white;padding:3px 9px;border-radius:980px;letter-spacing:.06em;vertical-align:middle">by PriceOS</span>
+        </div>
+        <div class="page-sub">Causal ML elasticity · 1,024 scenarios/night · Guardrailed autopilot · Reckitt × Shoprite × Carrefour AME</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="live-pill"><div class="live-dot"></div><span class="live-txt">3 Pilots Live</span></div>
+        <button class="btn btn-pink" onclick="posSetView('autopilot')">→ +£2.1M Apply Scenarios</button>
+      </div>
+    </div>
+
+    <!-- Live 3-number strip -->
+    <div class="live-strip">
+      <div class="live-card" style="--lc-color:var(--green)">
+        <div class="live-card-label">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:liveNumPulse 2.5s ease-in-out infinite;display:inline-block"></span>
+          Margin Opportunity This Week
+        </div>
+        <div class="live-card-val count-up live-num">+£2.1M</div>
+        <div class="live-card-delta" style="color:var(--green)">↑ Top 3 scenarios applied · 1,024 runs</div>
+      </div>
+      <div class="live-card" style="--lc-color:var(--pink)">
+        <div class="live-card-label">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink);animation:liveNumPulse 2s ease-in-out infinite;display:inline-block"></span>
+          Optimal Price · Dettol 500ml
+        </div>
+        <div class="live-card-val count-up" style="color:var(--pink)">£12.40</div>
+        <div class="live-card-delta" style="color:var(--ink-soft)">↑ +6.0% recommended · Shoprite NA</div>
+      </div>
+      <div class="live-card" style="--lc-color:var(--teal)">
+        <div class="live-card-label">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);animation:liveNumPulse 3s ease-in-out infinite;display:inline-block"></span>
+          Causal Elasticity (Own-Price)
+        </div>
+        <div class="live-card-val count-up" style="color:var(--teal)">−2.41</div>
+        <div class="live-card-delta" style="color:var(--ink-soft)">Double ML estimate · ±0.18 CI · p&lt;0.001</div>
+      </div>
+    </div>
+
+    <!-- Hierarchy tab bar: clear What Happened → What To Do → Do It -->
+    <div class="pos-tab-bar">
+      <div class="pos-tab ${posView==='dashboard'?'active':''}" onclick="posSetView('dashboard')">📊 What Happened</div>
+      <div class="pos-tab ${posView==='causal'?'active':''}" onclick="posSetView('causal')">🧠 Why It Happened</div>
+      <div class="pos-tab ${posView==='scenarios'?'active':''}" onclick="posSetView('scenarios')">🎯 What To Do</div>
+      <div class="pos-tab ${posView==='copilot'?'active':''}" onclick="posSetView('copilot')">💬 Ask Copilot</div>
+      <div class="pos-tab ${posView==='competitor'?'active':''}" onclick="posSetView('competitor')">👁 Competitor Watch</div>
+      <div class="pos-tab ${posView==='autopilot'?'active pink-tab':''}" onclick="posSetView('autopilot')">⚡ Execute It</div>
+    </div>
+
+    <!-- View container -->
+    <div id="pos-view-container"></div>
+  </div>`;
+}
+
+function posSetView(view) {
+  posView = view;
+  // Re-render tabs
+  document.querySelectorAll('.pos-tab').forEach((t,i) => {
+    const views = ['dashboard','causal','scenarios','copilot','competitor','autopilot'];
+    t.className = 'pos-tab' + (views[i]===view?' active':'') + (views[i]==='autopilot'&&view==='autopilot'?' pink-tab':'');
+  });
+  const el = document.getElementById('pos-view-container');
+  if (!el) return;
+  el.innerHTML = getPosViewHTML(view);
+  setTimeout(() => buildPosView(view), 80);
+}
+
+function getPosViewHTML(view) {
+  switch(view) {
+    case 'dashboard': return renderPosDashboard();
+    case 'causal': return renderPosCausal();
+    case 'scenarios': return renderPosScenarios();
+    case 'copilot': return renderPosCopilot();
+    case 'competitor': return renderPosCompetitor();
+    case 'autopilot': return renderPosAutopilot();
+    default: return '';
+  }
+}
+
+function renderPosDashboard() {
+  return `
+  <div class="g4" style="margin-bottom:16px">
+    <div class="kpi" style="--kpi-accent:var(--green)">
+      <div class="kpi-label">Margin Uplift QTD</div>
+      <div class="kpi-val count-up" style="color:var(--green)">+4.2%</div>
+      <div class="kpi-delta up">↑ vs last quarter</div>
+    </div>
+    <div class="kpi" style="--kpi-accent:var(--pink)">
+      <div class="kpi-label">Optimal Avg Price</div>
+      <div class="kpi-val count-up">£12.40</div>
+      <div class="kpi-delta neutral">Model recommended</div>
+    </div>
+    <div class="kpi" style="--kpi-accent:var(--teal)">
+      <div class="kpi-label">Sales Δ if +10% Price</div>
+      <div class="kpi-val count-up" style="color:var(--red)">−34%</div>
+      <div class="kpi-delta neutral">Causal est. ±2.8%</div>
+    </div>
+    <div class="kpi" style="--kpi-accent:var(--gold)">
+      <div class="kpi-label">Scenarios Run</div>
+      <div class="kpi-val count-up">1,024</div>
+      <div class="kpi-delta up">10 recs ready</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Price Elasticity Curve — Causal ML</div>
+        <div class="card-sub">Double ML estimate · Dettol 500ml · Shoprite NA · Confidence band ±1σ</div>
+      </div>
+      <div style="padding:18px 20px"><canvas id="pos-elasticity-chart" height="200"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Pilot Performance · Month 4</div>
+        <div class="card-sub">PriceOS markets vs existing process — A/B split · 14 Northern Africa markets</div>
+      </div>
+      <div style="padding:18px 20px">
+        ${[
+          ['+5.4%','Gross Margin Δ (PriceOS)','var(--green)'],
+          ['−1.8%','Volume Δ (within tolerance)','var(--ink-soft)'],
+          ['17%','Elasticity error (vs 31% baseline)','var(--teal)'],
+          ['+£2.4M','Annualised P&L upside','var(--green)'],
+        ].map(([v,l,c])=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-s)">
+            <div style="font-size:13px;color:var(--ink-soft)">${l}</div>
+            <div class="count-up" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:${c}">${v}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPosCausal() {
+  return `
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Predicted vs Actual Demand</div>
+        <div class="card-sub">Double ML fit · R² = 0.87 · Last trained: 3 days ago</div>
+      </div>
+      <div style="padding:18px 20px"><canvas id="pos-causal-chart" height="220"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Feature Coefficients</div>
+        <div class="card-sub">Causal effect on volume · Statistical significance</div>
+      </div>
+      <div style="padding:8px 0">
+        ${[
+          ['Own Price','−2.41','var(--red)',90,'***'],
+          ['Carrefour Price','+1.18','var(--teal)',55,'***'],
+          ['Promo Depth','+3.20','var(--green)',85,'***'],
+          ['Shelf Share','+0.74','var(--blue)',35,'**'],
+          ['Seasonality','+0.42','var(--ink-soft)',20,'**'],
+        ].map(([feat,coef,c,w,sig])=>`
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 20px;border-bottom:1px solid var(--border-s)">
+            <div style="flex:1;font-size:13px;color:var(--ink)">${feat}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:${c};min-width:50px">${coef}</div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);min-width:28px">${sig}</span>
+            <div style="min-width:80px">
+              <div class="prog-bar"><div class="prog-fill" style="width:${w}%;background:${c}"></div></div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="card" style="border-color:var(--pink-border);background:rgba(255,45,120,.02)">
+    <div style="padding:20px 24px;display:flex;align-items:flex-start;gap:16px">
+      <div style="font-size:28px">🧠</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px">Causal insight: What confounders were removed</div>
+        <div style="font-size:13.5px;color:var(--ink-soft);line-height:1.7">
+          Double ML separates the price elasticity from the Q3 promotional calendar (<strong style="color:var(--ink)">+3.2 volume effect</strong>), Ramadan seasonal uplift (<strong style="color:var(--ink)">+0.9</strong>), and Carrefour's parallel price move in the same period.
+          Raw correlation would have <strong style="color:var(--pink)">underestimated price sensitivity by 38%</strong> vs this causal estimate — the difference between a correct +6% recommendation and a 4% undershot that leaves £0.8M on the table.
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPosScenarios() {
+  const scenarios = [
+    {rank:1,sku:'Dettol 500ml · Shoprite NA',change:'+6.0%',margin:'+3.8% / +£2.1M ann',vol:'Low −1.8%',signal:'Clear',alert:'badge-buy'},
+    {rank:2,sku:'Dettol 1L · Shoprite SA',change:'+4.5%',margin:'+2.9% / +£1.6M ann',vol:'Low −2.1%',signal:'Watch',alert:'badge-hold'},
+    {rank:3,sku:'Harpic 500ml · Shoprite EA',change:'+8.0%',margin:'+2.4% / +£0.9M ann',vol:'Med −4.8%',signal:'Clear',alert:'badge-buy'},
+    {rank:4,sku:'Dettol 500ml · Carrefour UAE',change:'−3.0%',margin:'+1.8% / +£0.7M ann',vol:'Defensive',signal:'Urgent',alert:'badge-sell'},
+    {rank:5,sku:'Harpic 1L · LuLu KSA',change:'+5.5%',margin:'+1.6% / +£0.6M ann',vol:'Med −3.2%',signal:'Clear',alert:'badge-buy'},
+  ];
+  return `
+  <div class="card" style="overflow:hidden;margin-bottom:16px">
+    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div class="card-title">Overnight Scenario Rankings</div>
+        <div class="card-sub">1,024 scenarios · Ranked by net margin impact · Competitor signals integrated</div>
+      </div>
+      <button class="btn btn-pink btn-sm" onclick="posSetView('autopilot')">→ Apply All +£2.1M</button>
+    </div>
+    <div style="display:grid;grid-template-columns:32px 1fr 72px 1fr 80px 80px 110px;padding:10px 20px;background:var(--surface-alt);border-bottom:1px solid var(--border)">
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">#</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">SKU</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">Price Δ</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">Margin Impact</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">Vol Risk</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">Signal</span>
+      <span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">Action</span>
+    </div>
+    ${scenarios.map(s=>`
+    <div class="pos-sc-row">
+      <div class="${s.rank===1?'pos-rank pos-rank-1':'pos-rank pos-rank-n'}">${s.rank}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--ink)">${s.sku}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:${s.change.startsWith('+')?'var(--green)':'var(--red)'}">${s.change}</div>
+      <div style="font-size:13px;color:var(--green);font-weight:600">${s.margin}</div>
+      <div style="font-size:12px;color:var(--ink-soft)">${s.vol}</div>
+      <span class="badge ${s.alert}" style="font-size:10px">${s.signal}</span>
+      <button class="btn btn-pink btn-xs" onclick="posApplyScenario(this,'${s.sku}')">→ Apply</button>
+    </div>`).join('')}
+  </div>
+  <div class="card" style="border-color:var(--pink-border);background:rgba(255,45,120,.02)">
+    <div style="padding:18px 22px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">🎯 Game-theory competitor response</div>
+      <div style="font-size:13.5px;color:var(--ink-soft);line-height:1.7">Carrefour UAE's −9.7% move 7 days ago is a <strong style="color:var(--ink)">promotional reset, not a structural price war</strong> (confidence: 81%). Recommend a <strong style="color:var(--pink)">−3.0% defensive cut on Dettol 500ml UAE only</strong> — protecting volume in the near term while preserving margin across 13 other markets. Holding all markets would cost an estimated <strong style="color:var(--red)">£420K in share over 90 days</strong> based on cross-price elasticity.</div>
+    </div>
+  </div>`;
+}
+
+function renderPosCopilot() {
+  return `
+  <div class="pos-copilot-panel">
+    <div class="pos-copilot-header">
+      <div class="pos-copilot-title">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white">P</div>
+        PriceOS Copilot
+        <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.4)">Powered by Claude · Full pricing graph access</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--green);font-weight:700">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:liveNumPulse 2s ease-in-out infinite;display:inline-block"></span>
+        Live AI
+      </div>
+    </div>
+    <div class="pos-chat-msgs" id="pos-copilot-msgs">
+      <div class="pos-msg">
+        <div class="pos-avatar pos-avatar-ai">P</div>
+        <div class="pos-bubble">Good morning. Ran <strong>1,024 scenarios overnight</strong>. Top recommendation: <span class="p-pink">+6% on Dettol 500ml at Shoprite NA</span>, projecting <span class="p-green">+3.8% net margin</span> with &lt;2% volume loss. Carrefour hasn't moved in 8 days — low defensive risk. Causal elasticity: −2.41 (Double ML, 94% confidence). Ready to simulate competitor response?</div>
+      </div>
+    </div>
+    <div style="padding:12px 16px 8px;border-top:1px solid var(--border-s);display:flex;gap:8px;flex-wrap:wrap;background:var(--surface-alt)">
+      ${[
+        'Optimal price for Dettol 500ml next week?',
+        'What if Carrefour drops 8% on Dettol?',
+        'Which SKUs have highest margin recovery?',
+        'Explain the causal model CI for Harpic',
+      ].map(q=>`<div class="badge badge-teal" style="cursor:pointer;font-size:11px" onclick="posFillPrompt('${q}')">${q}</div>`).join('')}
+    </div>
+    <div class="pos-input-row">
+      <input class="pos-input" id="pos-copilot-input" placeholder='Ask about SKUs, scenarios, competitor moves, model confidence...' type="text" onkeydown="if(event.key==='Enter')posSendMessage()">
+      <button class="pos-send-btn" id="pos-send-btn" onclick="posSendMessage()">Ask</button>
+    </div>
+  </div>`;
+}
+
+function renderPosCompetitor() {
+  const rows = [
+    {name:'Carrefour UAE',sku:'Dettol 500ml equiv',their:'£11.20',our:'£12.40',change:'↓ −9.7% (7 days ago)',alert:'badge-sell',alertTxt:'⚡ High'},
+    {name:'LuLu Hypermarket',sku:'Dettol 500ml equiv',their:'£12.50',our:'£12.40',change:'→ No change',alert:'badge-buy',alertTxt:'✓ Stable'},
+    {name:'Shoprite Egypt',sku:'Harpic 500ml equiv',their:'£9.80',our:'£9.20',change:'↑ +6.5% (2 days ago)',alert:'badge-hold',alertTxt:'⚠ Watch'},
+    {name:'Panda KSA',sku:'Dettol 1L equiv',their:'£18.90',our:'£19.20',change:'→ No change',alert:'badge-buy',alertTxt:'✓ Stable'},
+    {name:'Spinneys Lebanon',sku:'Dettol 500ml equiv',their:'£10.90',our:'£12.40',change:'↓ −12.1% (new)',alert:'badge-sell',alertTxt:'⚡ High'},
+  ];
+  return `
+  <div class="card" style="overflow:hidden;margin-bottom:16px">
+    <div class="card-header">
+      <div class="card-title">Live Competitor Watch · AME Region</div>
+      <div class="card-sub">Scraping 48 retailers · Last refresh: 6 min ago · Game-theory signals active</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 70px 70px 1fr 100px;padding:10px 20px;background:var(--surface-alt);border-bottom:1px solid var(--border)">
+      ${['Competitor','SKU Match','Their Price','Our Price','Δ Change','Alert'].map(h=>`<span style="font-size:10px;color:var(--ink-faint);font-weight:700;text-transform:uppercase;letter-spacing:.07em">${h}</span>`).join('')}
+    </div>
+    ${rows.map(r=>`
+    <div style="display:grid;grid-template-columns:1fr 1fr 70px 70px 1fr 100px;align-items:center;padding:13px 20px;border-bottom:1px solid var(--border-s);font-size:13px;cursor:pointer;transition:var(--transition)" onmouseenter="this.style.background='var(--teal-glow-s)'" onmouseleave="this.style.background=''">
+      <div style="font-weight:700;color:var(--ink)">${r.name}</div>
+      <div style="color:var(--ink-soft)">${r.sku}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:${r.change.includes('↓')?'var(--red)':r.change.includes('↑')?'var(--green)':'var(--ink)'}">${r.their}</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--ink)">${r.our}</div>
+      <div style="font-size:12px;font-weight:600;color:${r.change.includes('↓')?'var(--red)':r.change.includes('↑')?'var(--green)':'var(--ink-soft)'}">${r.change}</div>
+      <span class="badge ${r.alert}">${r.alertTxt}</span>
+    </div>`).join('')}
+  </div>
+  <div class="card" style="border-color:var(--pink-border);background:rgba(255,45,120,.02)">
+    <div style="padding:18px 22px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">🎯 Game-theory recommendation</div>
+      <div style="font-size:13.5px;color:var(--ink-soft);line-height:1.7">Carrefour UAE's −9.7% move is a promotional reset (confidence: 81%). Recommend: <strong style="color:var(--pink)">−3.0% defensive cut on Dettol 500ml UAE only</strong>. Holding all markets = estimated <strong style="color:var(--red)">−£420K share loss over 90 days</strong>.</div>
+      <div style="margin-top:14px"><button class="btn btn-pink btn-sm" onclick="posSetView('autopilot')">→ Apply Defensive Response −£420K Protection</button></div>
+    </div>
+  </div>`;
+}
+
+function renderPosAutopilot() {
+  return `
+  <div class="g2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" style="display:flex;align-items:center;gap:10px">
+          Auto-Pilot Configuration
+          <span style="font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg);padding:3px 9px;border-radius:980px;border:1px solid rgba(16,185,129,.2)">● ACTIVE</span>
+        </div>
+        <div class="card-sub">2 changes executed this week · All within guardrail policy · EU AI Act compliant</div>
+      </div>
+      <div style="padding:18px 22px">
+        ${[
+          ['Max single price increase','+8.0%','var(--green)'],
+          ['Max single price decrease','−5.0%','var(--green)'],
+          ['Max weekly changes','3 SKUs','var(--green)'],
+          ['Promotional period lock','Yes — 14 days','var(--green)'],
+          ['Competitor trigger threshold','Δ > 7% activates review','var(--green)'],
+          ['Human approval required above','+6% or −4%','var(--amber)'],
+          ['EU AI Act explainability','Enabled · Full audit trail','var(--green)'],
+        ].map(([l,v,c])=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border-s)">
+            <span style="font-size:13px;color:var(--ink-soft)">${l}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;color:${c}">${v}</span>
+          </div>`).join('')}
+        <div style="margin-top:18px;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--pink-bg);border:1px solid var(--pink-border);border-radius:var(--r10)">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--pink)">Auto-Pilot Armed</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px">Executes approved scenarios within guardrails</div>
+          </div>
+          <div class="pos-toggle on" id="pos-autopilot-toggle" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Pending Actions — Apply Now</div>
+        <div class="card-sub">Top 3 overnight scenarios · Total opportunity: <strong style="color:var(--green)">+£2.1M</strong></div>
+      </div>
+      <div style="padding:18px 22px;display:flex;flex-direction:column;gap:12px">
+        ${[
+          {sku:'Dettol 500ml · Shoprite NA',change:'+6.0%',margin:'+£2.1M ann',conf:94},
+          {sku:'Dettol 1L · Shoprite SA',change:'+4.5%',margin:'+£1.6M ann',conf:89},
+          {sku:'Harpic 500ml · Shoprite EA',change:'+8.0%',margin:'+£0.9M ann',conf:82},
+        ].map((s,i)=>`
+          <div style="padding:14px 16px;border:1px solid var(--border);border-radius:var(--r12);transition:var(--transition)" onmouseenter="this.style.borderColor='var(--pink-border)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+              <div>
+                <div style="font-size:13.5px;font-weight:700;color:var(--ink)">${s.sku}</div>
+                <div style="font-size:12px;color:var(--ink-soft);margin-top:2px">Confidence: ${s.conf}% · Within guardrail · Causal ML</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:800;color:var(--green)">${s.margin}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft)">${s.change}</div>
+              </div>
+            </div>
+            <button class="btn btn-pink" style="width:100%;justify-content:center" onclick="posApplyScenario(this,'${s.sku}')">→ Apply ${s.margin}</button>
+          </div>`).join('')}
+        <div style="border-top:1px solid var(--border);padding-top:14px">
+          <button class="btn btn-pink" style="width:100%;justify-content:center;font-size:14px;padding:13px" onclick="posApplyAll(this)">⚡ Apply All 3 Scenarios → +£2.1M This Week</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px;border-color:rgba(59,130,246,.2);background:rgba(59,130,246,.02)">
+    <div style="padding:18px 22px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px">⚖️ EU AI Act Compliance <span class="badge badge-blue">IFRS 9 + EU AI Act</span></div>
+      <div style="font-size:13.5px;color:var(--ink-soft);line-height:1.7">Every executed action includes a full causal reasoning trace, counterfactual explanation, and human override record — satisfying <strong style="color:var(--ink)">Article 14 (human oversight)</strong> and <strong style="color:var(--ink)">Article 13 (transparency)</strong> for high-risk AI systems. Audit export in PDF or JSON available for board review.</div>
+    </div>
+  </div>`;
+}
+
+function buildPricingOS() {
+  posView = 'dashboard';
+  // Render initial view
+  const el = document.getElementById('pos-view-container');
+  if (el) {
+    el.innerHTML = getPosViewHTML('dashboard');
+    setTimeout(() => buildPosView('dashboard'), 80);
+  }
+}
+
+function buildPosView(view) {
+  if (view === 'dashboard') buildPosElasticity();
+  if (view === 'causal') buildPosCausalChart();
+}
+
+function buildPosElasticity() {
+  const canvas = document.getElementById('pos-elasticity-chart');
+  if (!canvas) return;
+  const prices = [], demand = [], upper = [], lower = [];
+  for (let p = 8; p <= 18; p += 0.5) {
+    const d = Math.round(100000 * Math.pow(p/12.4, -2.41));
+    prices.push(p);
+    demand.push(d);
+    upper.push(Math.round(d * 1.08));
+    lower.push(Math.round(d * 0.92));
+  }
+  new Chart(canvas, {
+    type:'line',
+    data:{
+      labels: prices,
+      datasets:[
+        {label:'Demand (Causal ML)',data:demand,borderColor:'#0D9488',borderWidth:2.5,backgroundColor:'rgba(13,148,136,.08)',fill:false,pointRadius:0,tension:0.4},
+        {label:'Upper CI',data:upper,borderColor:'rgba(13,148,136,.25)',borderWidth:1,borderDash:[4,4],fill:'+1',backgroundColor:'rgba(13,148,136,.06)',pointRadius:0,tension:0.4},
+        {label:'Lower CI',data:lower,borderColor:'rgba(13,148,136,.25)',borderWidth:1,borderDash:[4,4],fill:false,pointRadius:0,tension:0.4},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:10}}},
+      scales:{
+        x:{title:{display:true,text:'Price (£)'},grid:{color:'rgba(0,0,0,.04)'}},
+        y:{title:{display:true,text:'Weekly Demand (units)'},grid:{color:'rgba(0,0,0,.04)'}}
+      }
+    }
+  });
+}
+
+function buildPosCausalChart() {
+  const canvas = document.getElementById('pos-causal-chart');
+  if (!canvas) return;
+  const actual = [], predicted = [];
+  for (let i = 0; i < 24; i++) {
+    const base = 800 + Math.sin(i*0.5)*200 + i*8;
+    actual.push(Math.round(base + (Math.random()-0.5)*120));
+    predicted.push(Math.round(base + (Math.random()-0.5)*40));
+  }
+  new Chart(canvas,{
+    type:'line',
+    data:{
+      labels:Array.from({length:24},(_,i)=>`W${i+1}`),
+      datasets:[
+        {label:'Actual',data:actual,borderColor:'var(--pink)',borderWidth:1.5,backgroundColor:'transparent',pointRadius:2,tension:0.3},
+        {label:'Predicted',data:predicted,borderColor:'var(--green)',borderWidth:2,backgroundColor:'transparent',pointRadius:2,tension:0.4}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{size:11},boxWidth:8}}},
+      scales:{
+        x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{maxTicksLimit:8}},
+        y:{grid:{color:'rgba(0,0,0,.04)'}}
+      }
+    }
+  });
+}
+
+// Copilot message handling
+const PRICEOS_SYSTEM = `You are PriceOS Copilot, an expert autonomous pricing intelligence assistant for FMCG brands embedded inside the NERVURE financial operating system. You serve the Reckitt commodity risk team.
+
+Context: Dettol 500ml, Shoprite Northern Africa. Optimal price: £12.40. Causal elasticity: −2.41 (Double ML). Carrefour UAE dropped 9.7% (7 days ago). Top reco: +6.0% → +3.8% margin uplift. Pilot Month 4: +5.4% margin across PriceOS markets.
+
+Be sharp, data-driven, specific to Reckitt/Dettol/Harpic/Finish/Enfamil portfolio. Use exact numbers. Reference confidence intervals. 2-4 sentences max. In the context of NERVURE's CFO-level view.`;
+
+async function posSendMessage() {
+  const input = document.getElementById('pos-copilot-input');
+  const sendBtn = document.getElementById('pos-send-btn');
+  const msgs = document.getElementById('pos-copilot-msgs');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sendBtn.disabled = true;
+
+  msgs.innerHTML += `<div class="pos-msg" style="flex-direction:row-reverse"><div class="pos-avatar pos-avatar-user">R</div><div class="pos-bubble user">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div>`;
+
+  const typingId = 'postyping-' + Date.now();
+  msgs.innerHTML += `<div class="pos-msg" id="${typingId}"><div class="pos-avatar pos-avatar-ai">P</div><div class="pos-bubble"><div class="pos-typing"><div class="pos-typing-dot"></div><div class="pos-typing-dot"></div><div class="pos-typing-dot"></div></div></div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  posCopilotHistory.push({role:'user',content:text});
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:PRICEOS_SYSTEM,messages:posCopilotHistory})
+    });
+    const data = await resp.json();
+    const reply = data.content?.[0]?.text || 'Unable to respond. Check API configuration.';
+    posCopilotHistory.push({role:'assistant',content:reply});
+    document.getElementById(typingId)?.remove();
+    const formatted = reply
+      .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+      .replace(/(\+£[\d.]+[MKB]?)/g,'<span class="p-green">$1</span>')
+      .replace(/(−£[\d.]+[MKB]?)/g,'<span style="color:var(--red);font-weight:700">$1</span>')
+      .replace(/([\+\-][\d.]+%)/g,'<span class="p-pink">$1</span>');
+    msgs.innerHTML += `<div class="pos-msg"><div class="pos-avatar pos-avatar-ai">P</div><div class="pos-bubble">${formatted}</div></div>`;
+  } catch(e) {
+    document.getElementById(typingId)?.remove();
+    msgs.innerHTML += `<div class="pos-msg"><div class="pos-avatar pos-avatar-ai">P</div><div class="pos-bubble" style="color:var(--red)">API connection issue. Verify Anthropic API key.</div></div>`;
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+  sendBtn.disabled = false;
+}
+
+function posFillPrompt(text) {
+  const input = document.getElementById('pos-copilot-input');
+  if (input) { input.value = text; input.focus(); }
+}
+
+function posApplyScenario(btn, sku) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ Applied';
+  btn.style.background = 'var(--green)';
+  // Count-up animation effect
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2200);
+}
+
+function posApplyAll(btn) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✓ All 3 Applied — +£2.1M Executing';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 3000);
+}
+
+// Add pricing-os to CMD palette
+CMD_ITEMS.push({icon:'🎯',label:'Pricing OS',desc:'Causal ML pricing · Scenarios · Autopilot',action:()=>showModule('pricing-os',document.getElementById('nav-pricing-os'))});
+CMD_ITEMS.push({icon:'🔗',label:'Margin Bridge',desc:'Cost-to-price transmission · PriceOS integration',action:()=>showModule('marginbridge',document.getElementById('nav-marginbridge'))});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MARGIN BRIDGE — Cost-to-Price Transmission Engine
+// The missing link between Nervure (input cost OS) and PriceOS (output revenue OS)
+// ══════════════════════════════════════════════════════════════════════════════
+function renderMarginBridge() {
+  return `
+  <div class="animate-in">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Margin Bridge</div>
+        <div class="page-sub">Cost-to-price transmission · Commodity spike → pricing impact simulation · PriceOS integration layer</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost">⬇ Export Analysis</button>
+        <button class="btn btn-primary" onclick="alert('PriceOS API connection: configure endpoint in Settings → Integrations')">⚡ Send to PriceOS</button>
+      </div>
+    </div>
+
+    <!-- Concept Banner -->
+    <div style="background:linear-gradient(135deg,var(--ink) 0%,#1A3835 60%,#0D2E2B 100%);border-radius:var(--r16);padding:28px 32px;margin-bottom:20px;position:relative;overflow:hidden;border:1px solid var(--border-m)">
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(13,148,136,.18) 0%,transparent 70%);pointer-events:none"></div>
+      <div style="position:relative;z-index:1">
+        <div style="font-size:11px;color:var(--teal-xl);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Integration Layer · Nervure ↔ PriceOS</div>
+        <div style="font-size:22px;font-weight:800;color:white;line-height:1.2;margin-bottom:10px;letter-spacing:-.02em">
+          When commodity costs spike, <span style="color:var(--teal-xl)">how much can you pass through</span> without losing volume?
+        </div>
+        <div style="font-size:13.5px;color:rgba(255,255,255,.6);max-width:600px;line-height:1.65;">
+          Nervure detects a +18% Ethylene futures move. Margin Bridge automatically queries PriceOS's causal elasticity model to calculate the maximum price pass-through rate before volume cliff — giving you the answer before your competitor's pricing team even opens Excel.
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--r10);padding:12px 18px;text-align:center;min-width:120px">
+            <div style="font-size:22px;font-weight:800;color:white">+18%</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.06em;font-weight:700">Ethylene Spike</div>
+          </div>
+          <div style="display:flex;align-items:center;color:var(--teal-xl);font-size:22px">→</div>
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--r10);padding:12px 18px;text-align:center;min-width:140px">
+            <div style="font-size:22px;font-weight:800;color:var(--teal-xl)">+£4.8M</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.06em;font-weight:700">COGS Pressure</div>
+          </div>
+          <div style="display:flex;align-items:center;color:var(--teal-xl);font-size:22px">→</div>
+          <div style="background:rgba(13,148,136,.15);border:1px solid rgba(13,148,136,.3);border-radius:var(--r10);padding:12px 18px;text-align:center;min-width:160px">
+            <div style="font-size:22px;font-weight:800;color:var(--teal-xl)">+4.2% max</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.06em;font-weight:700">Safe Pass-Through</div>
+          </div>
+          <div style="display:flex;align-items:center;color:var(--amber);font-size:22px">→</div>
+          <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:var(--r10);padding:12px 18px;text-align:center;min-width:160px">
+            <div style="font-size:22px;font-weight:800;color:var(--amber)">−1.8%</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.06em;font-weight:700">Residual Margin Gap</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="g4" style="margin-bottom:16px">
+      <div class="kpi" style="--kpi-accent:var(--red)">
+        <div class="kpi-label">Active Cost Shocks</div>
+        <div class="kpi-val" style="color:var(--red)">3</div>
+        <div class="kpi-delta down">Ethylene, SMP, Propylene</div>
+        <div class="kpi-sub">Requiring pass-through analysis</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--teal)">
+        <div class="kpi-label">Max Safe Pass-Through</div>
+        <div class="kpi-val" style="color:var(--teal)">4.2%</div>
+        <div class="kpi-delta neutral">Avg across portfolio</div>
+        <div class="kpi-sub">Before elasticity cliff</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--amber)">
+        <div class="kpi-label">Residual Gap (unrecovered)</div>
+        <div class="kpi-val" style="color:var(--amber)">£1.8M</div>
+        <div class="kpi-delta down">Cannot pass to consumer</div>
+        <div class="kpi-sub">Must absorb via efficiency</div>
+      </div>
+      <div class="kpi" style="--kpi-accent:var(--green)">
+        <div class="kpi-label">Protected via Hedges</div>
+        <div class="kpi-val" style="color:var(--green)">£3.1M</div>
+        <div class="kpi-delta up">77% of shock absorbed</div>
+        <div class="kpi-sub">Nervure hedge coverage</div>
+      </div>
+    </div>
+
+    <!-- Transmission Table -->
+    <div class="card" style="margin-bottom:16px;overflow:hidden">
+      <div class="card-header">
+        <div class="card-title">Cost-to-Price Transmission Matrix</div>
+        <div class="card-sub">Live commodity shocks × PriceOS elasticity model × recommended pricing action · Updated on every Nervure signal</div>
+      </div>
+      <div id="mb-table-root"></div>
+    </div>
+
+    <!-- Two-col detail -->
+    <div class="g2">
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Elasticity Guardrails</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:18px">PriceOS causal model thresholds — safe pricing corridor per SKU cluster</div>
+        <div id="mb-guardrails"></div>
+      </div>
+      <div class="card" style="padding:22px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Pass-Through Waterfall</div>
+        <div style="font-size:12px;color:var(--ink-soft);margin-bottom:18px">How Nervure hedging reduces the pricing burden on the consumer</div>
+        <canvas id="mb-waterfall" height="220"></canvas>
+      </div>
+    </div>
+
+    <!-- Integration Status -->
+    <div class="card" style="margin-top:16px;padding:22px;border:1px solid rgba(13,148,136,.2);background:var(--teal-glow-s)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div style="width:36px;height:36px;border-radius:8px;background:var(--teal-glow);border:1px solid var(--border-m);display:flex;align-items:center;justify-content:center;font-size:18px">🔗</div>
+        <div>
+          <div style="font-size:15px;font-weight:700">PriceOS Integration Status</div>
+          <div style="font-size:12px;color:var(--ink-soft)">Configure the bidirectional data pipeline between Nervure and PriceOS</div>
+        </div>
+        <span class="badge badge-amber" style="margin-left:auto">NOT YET CONNECTED</span>
+      </div>
+      <div class="g3">
+        \${[
+          ['Nervure → PriceOS','Commodity cost signals, COGS floor, hedge coverage ratio','Awaiting API key'],
+          ['PriceOS → Nervure','Elasticity thresholds, pricing decisions, volume risk flags','Awaiting API key'],
+          ['Shared Compliance Trail','EU AI Act decision log shared across both systems','Planned · Q2 2026'],
+        ].map(([t,d,s]) => \`
+          <div style="padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r10)">
+            <div style="font-size:12.5px;font-weight:700;margin-bottom:4px">\${t}</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:10px">\${d}</div>
+            <span class="badge badge-amber" style="font-size:9px">\${s}</span>
+          </div>\`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildMarginBridge() {
+  const rows = [
+    { comm:'Ethylene', shock:'+18.2%', cogs:'+£4.8M', hedge:'82%', residual:'+£0.86M', elasticity:'−2.1 (Med)', maxPass:'+4.2%', action:'Price +3.8% on Dettol 500ml lines', status:'EXECUTE', statusC:'var(--green)' },
+    { comm:'Skim Milk Powder', shock:'+11.4%', cogs:'+£2.1M', hedge:'68%', residual:'+£0.67M', elasticity:'−1.8 (Low)', maxPass:'+5.1%', action:'Price +4.5% on dairy SKUs', status:'EXECUTE', statusC:'var(--green)' },
+    { comm:'Propylene', shock:'+8.7%', cogs:'+£1.4M', hedge:'24%', residual:'+£1.06M', elasticity:'−3.2 (High)', maxPass:'+1.9%', action:'Absorb via pack-size re-arch. Do not pass.', status:'ABSORB', statusC:'var(--red)' },
+    { comm:'Caustic Soda', shock:'+5.2%', cogs:'+£0.9M', hedge:'91%', residual:'+£0.08M', elasticity:'−2.4 (Med)', maxPass:'+3.1%', action:'Pass-through not required — hedge sufficient', status:'HEDGED', statusC:'var(--teal)' },
+  ];
+
+  const el = document.getElementById('mb-table-root');
+  if (!el) return;
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:110px 80px 80px 60px 90px 110px 80px 1fr 90px;padding:10px 20px;background:var(--surface-alt);border-bottom:1px solid var(--border)">
+      ${['Commodity','Shock','COGS Hit','Hedged','Residual','Elasticity (PriceOS)','Max Pass','Recommended Action','Status'].map(h=>`<span style="font-size:9.5px;font-weight:700;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase">${h}</span>`).join('')}
+    </div>
+    ${rows.map(r=>`
+    <div style="display:grid;grid-template-columns:110px 80px 80px 60px 90px 110px 80px 1fr 90px;padding:14px 20px;border-bottom:1px solid var(--border-s);transition:var(--transition)"
+         onmouseenter="this.style.background='var(--teal-glow-s)'" onmouseleave="this.style.background=''">
+      <div style="font-weight:700;font-size:13px">${r.comm}</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;color:var(--red);font-weight:700">${r.shock}</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;color:var(--amber);font-weight:600">${r.cogs}</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;color:var(--green);font-weight:600">${r.hedge}</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;color:var(--ink-mid);font-weight:600">${r.residual}</div>
+      <div style="font-size:12px;color:var(--ink-soft)">${r.elasticity}</div>
+      <div style="font-family:'JetBrains Mono';font-size:13px;color:var(--teal);font-weight:700">${r.maxPass}</div>
+      <div style="font-size:12px;color:var(--ink-soft);line-height:1.4">${r.action}</div>
+      <span class="badge" style="background:${r.statusC}15;color:${r.statusC};border:1px solid ${r.statusC}40;font-size:9px;align-self:center">${r.status}</span>
+    </div>`).join('')}`;
+
+  // Guardrails
+  const gEl = document.getElementById('mb-guardrails');
+  if (gEl) {
+    const skus = [
+      { name:'Dettol 500ml — NA',  floor:'$10.20', ceil:'$14.80', current:'$12.40', safe:true  },
+      { name:'Dettol 1L — KSA',    floor:'$18.40', ceil:'$26.00', current:'$19.80', safe:true  },
+      { name:'Harpic 500ml — EA',  floor:'$8.60',  ceil:'$12.00', current:'$11.90', safe:false },
+      { name:'Harpic 1L — UAE',    floor:'$14.20', ceil:'$19.50', current:'$14.50', safe:true  },
+    ];
+    gEl.innerHTML = skus.map(s => {
+      const pct = Math.round(
+        (parseFloat(s.current.replace('$','')) - parseFloat(s.floor.replace('$',''))) /
+        (parseFloat(s.ceil.replace('$','')) - parseFloat(s.floor.replace('$',''))) * 100
+      );
+      return `
+      <div style="padding:10px 0;border-bottom:1px solid var(--border-s)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:12.5px;font-weight:600">${s.name}</div>
+          <span class="badge ${s.safe?'badge-buy':'badge-amber'}">${s.safe?'In corridor':'Near ceiling'}</span>
+        </div>
+        <div style="position:relative;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+          <div style="position:absolute;inset:0;background:rgba(13,148,136,.12);border-radius:3px"></div>
+          <div style="position:absolute;left:0;top:0;width:${pct}%;height:100%;background:${s.safe?'var(--teal)':'var(--amber)'};border-radius:3px;transition:width .8s ease"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;font-family:'JetBrains Mono';font-size:10px;color:var(--ink-faint)">
+          <span>Floor ${s.floor}</span><span>Current ${s.current}</span><span>Ceil ${s.ceil}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Pass-Through Waterfall chart
+  const wCanvas = document.getElementById('mb-waterfall');
+  if (wCanvas && window.Chart) {
+    new Chart(wCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Commodity Shock', 'Hedge Absorption', 'Residual Exposure', 'Price Pass-Through', 'Net Margin Impact'],
+        datasets: [{
+          data: [8.7, -5.8, 2.9, -2.1, 0.8],
+          backgroundColor: [
+            'rgba(239,68,68,.75)',
+            'rgba(16,185,129,.75)',
+            'rgba(245,158,11,.75)',
+            'rgba(13,148,136,.75)',
+            'rgba(239,68,68,.75)'
+          ],
+          borderRadius: 5,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0A1A18',
+            titleColor: 'rgba(255,255,255,.8)',
+            bodyColor: 'rgba(255,255,255,.6)',
+            padding: 10,
+            callbacks: { label: ctx => `${ctx.raw > 0 ? '+' : ''}${ctx.raw}% margin impact` }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: 'var(--ink-soft)', font: { size: 10 }, maxRotation: 0 }
+          },
+          y: {
+            grid: { color: 'rgba(13,148,136,.08)' },
+            ticks: { color: 'var(--ink-faint)', font: { size: 10 }, callback: v => `${v>0?'+':''}${v}%` }
+          }
+        }
+      }
+    });
+  }
+}
 document.addEventListener('DOMContentLoaded', () => {
   buildSidebar();
   showModule('dashboard', document.getElementById('nav-dashboard'));
